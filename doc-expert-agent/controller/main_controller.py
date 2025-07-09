@@ -6,8 +6,7 @@ from pipeline.openai import Key
 from pipeline.evaluate import Evaluate
 
 from service.select_service import SelectServices
-from model.enum.connection_type import ConnectionType
-from model.enum.prompt_type import PromptType
+from model.input import Input
 
 import logging
 
@@ -28,29 +27,25 @@ class MainController:
 
     def run(
             self, 
-            connection_type_option: str, 
-            prompt_type_option: str,
-            question: str, 
+            input: Input, 
             chunks_callback, 
             result_callback
         ):
-        logger.info(f"Pergunta recebida: {question}")
+        logger.info(f"Pergunta recebida: {input.question}")
 
         # retrieval
         chunks = Retrieval.retrieve_similar_documents(
             vector_store=self.vector_store, 
-            question=question
+            question=input.question
         )
         chunks_callback(chunks)
 
         # open ai
         result = SelectServices(
             answers=chunks,
-            question=question, 
             api_key=self.api_key,
         ).run(
-            connection_type=connection_type_option,
-            prompt_type=prompt_type_option
+            input=input
         )
         result_callback(result)
 
@@ -58,7 +53,7 @@ class MainController:
         evaluate = Evaluate(
             answer=result,
             chunks=chunks, 
-            question=question
+            question=input.question
         ).evaluate_answer()
 
         return evaluate

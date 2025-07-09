@@ -2,6 +2,7 @@ from typing import List
 from model.answer import Answer
 from model.enum.connection_type import ConnectionType
 from model.enum.prompt_type import PromptType
+from model.input import Input
 
 from service.agent_basic.connection import BaseConnectionToOpenAI
 from service.agent_tools.connection import ConnectionWithToolsToOpenAI
@@ -12,15 +13,13 @@ logger = logging.getLogger(__name__)
 
 class SelectServices:
 
-    def __init__(self, answers: List[Answer], question: str, api_key: str):
+    def __init__(self, answers: List[Answer], api_key: str):
         self.answers = answers
-        self.question = question
         self.api_key = api_key
 
     def run(
         self,
-        connection_type: str,
-        prompt_type: str
+        input: Input
     ):
 
         logger.info("Inicializando SelectServices")
@@ -31,38 +30,38 @@ class SelectServices:
 
         result = ""
 
-        type = ConnectionType(connection_type)
+        type = ConnectionType(input.connection_type)
 
         if type == ConnectionType.BASIC_CONNECTION:
-            result = self.base_connect(prompt_type)
+            result = self.base_connect(input)
 
         elif type == ConnectionType.CONNECTION_WITH_TOOLS:
-            result = self.connect_with_tools()
+            result = self.connect_with_tools(input)
 
         elif type == ConnectionType.CONNECTION_WITH_TOOLS_AND_REACT:
-            result = self.connect_with_tools_and_react()
+            result = self.connect_with_tools_and_react(input)
 
         logger.info("Finalizado SelectServices")    
 
         return result
 
-    def base_connect(self, prompt_type: str):
+    def base_connect(self, input: Input):
         return BaseConnectionToOpenAI(
             context=self.get_context(), 
-            question=self.question, 
-            prompt_type=PromptType(prompt_type)
+            question=input.question, 
+            prompt_type=PromptType(input.prompt_type)
         ).connect(api_key=self.api_key)
 
-    def connect_with_tools(self):
+    def connect_with_tools(self, input: Input):
         return ConnectionWithToolsToOpenAI(
             context=self.get_context(), 
-            question=self.question, 
+            question=input.question, 
         ).connect(api_key=self.api_key)
 
-    def connect_with_tools_and_react(self):
+    def connect_with_tools_and_react(self, input: Input):
         return ConnectionWithReactToOpenAI(
             context=self.get_context(), 
-            question=self.question, 
+            question=input.question, 
         ).connect(api_key=self.api_key)
 
     def get_context(self) -> str:

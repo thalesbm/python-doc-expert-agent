@@ -1,5 +1,6 @@
 from controller.main_controller import MainController
 from view.main_view import MainView
+from model.input import Input
 
 import streamlit as st
 import logging
@@ -13,21 +14,15 @@ def init():
 
     MainView.set_view(get_form)
     
-def get_form(
-        question: str, 
-        connection_type_option: str, 
-        prompt_type_option: str,
-    ):
+def get_form(input: Input):
 
     if "controller" not in st.session_state:
         st.session_state.controller = MainController()
         logger.info("Controller inicializado!")
 
-    if question:
+    if input.question:
         evaluate = st.session_state.controller.run(
-            connection_type_option=connection_type_option,
-            prompt_type_option=prompt_type_option,
-            question=question, 
+            input=input, 
             chunks_callback=MainView.update_view_with_chunks,
             result_callback=MainView.update_view_with_result
         )

@@ -1,4 +1,5 @@
 from model.answer import Answer
+from model.input import Input
 import streamlit as st
 
 from typing import List
@@ -40,9 +41,23 @@ class MainView():
 
         with st.form(key="meu_formulario"):
             submit = st.form_submit_button(label="Enviar")
+        
+        with st.sidebar:
+            st.title("Documentos")
+            files = st.file_uploader(
+                key="file-pdf",
+                label="Anexar arquivos PDF",
+                type="pdf",
+                accept_multiple_files=False,
+            )
 
         if submit:
-            callback(question, connection_type_option, prompt_type_option)
+            input = Input(
+                question=question,
+                connection_type=connection_type_option,
+                prompt_type=prompt_type_option
+            )
+            callback(input)
 
     def update_view_with_chunks(answers: List[Answer]):
         st.subheader("Chunks recuperados:")
