@@ -6,7 +6,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-class BaseConnectionToOpenAI:
+class BasicConnectionToOpenAI:
 
     def __init__(self, context: str, question: str, prompt_type: PromptType):
         self.context = context
