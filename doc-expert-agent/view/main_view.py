@@ -24,6 +24,7 @@ class MainView():
 
         prompt_type_option = None
         question = None
+        files = None
 
         if connection_type_option == "conexao-simples-llm":
             prompt_type_option = st.selectbox("🎯 Tipo de Prompt",
@@ -34,6 +35,16 @@ class MainView():
             )
             question = st.text_input("Digite sua pergunta", 
                                      value = "qual foi o aplicativo escolhido para o projeto?")
+            
+            with st.sidebar:
+                st.title("Documentos")
+                st.write("Caso não anexar um arquivo, iremos utilizar o default no path: doc-expert-agent/files/tcc.pdf")
+                files = st.file_uploader(
+                    key="file-pdf",
+                    label="Anexar arquivos PDF",
+                    type="pdf",
+                    accept_multiple_files=False,
+                )
         
         elif connection_type_option in ["conexao-com-tool", "conexao-com-tool-react"]:
             question = st.text_input("✏️ Faça sua pergunta", 
@@ -41,16 +52,6 @@ class MainView():
 
         with st.form(key="meu_formulario"):
             submit = st.form_submit_button(label="Enviar")
-        
-        with st.sidebar:
-            st.title("Documentos")
-            st.write("Caso não anexar um arquivo, iremos utilizar o default no path: doc-expert-agent/files/tcc.pdf")
-            files = st.file_uploader(
-                key="file-pdf",
-                label="Anexar arquivos PDF",
-                type="pdf",
-                accept_multiple_files=False,
-            )
 
         if submit:
             input = Input(
