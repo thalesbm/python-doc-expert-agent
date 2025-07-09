@@ -16,19 +16,11 @@ class MainView:
         
         st.subheader("Escolha as configurações abaixo e faça a sua pergunta")
         
-        connection_type_option = st.selectbox("🔌 Tipo de Conexão",
-            [
-                "conexao-simples-llm", 
-                "conexao-simples-llm-memory",
-                "conexao-com-tool", 
-                "conexao-com-tool-react", 
-                
-            ]
-        )
-
         prompt_type_option = None
         question = None
         files = None
+
+        connection_type_option = MainView.get_connection_typpe()
 
         if connection_type_option == "conexao-simples-llm":
             prompt_type_option, question, files = MainView.render_conexao_simples_llm()
@@ -50,6 +42,17 @@ class MainView:
                 file=files
             )
             callback(input)
+
+    def get_connection_typpe():
+        return st.selectbox("🔌 Tipo de Conexão",
+            [
+                "conexao-simples-llm", 
+                "conexao-simples-llm-memory",
+                "conexao-com-tool", 
+                "conexao-com-tool-react", 
+                
+            ]
+        )
 
     @staticmethod
     def render_conexao_simples_llm():
