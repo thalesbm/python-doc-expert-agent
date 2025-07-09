@@ -17,12 +17,11 @@ def init():
 def get_form(input: Input):
 
     if "controller" not in st.session_state:
-        st.session_state.controller = MainController()
+        st.session_state.controller = MainController(input=input)
         logger.info("Controller inicializado!")
 
     if input.question:
         evaluate = st.session_state.controller.run(
-            input=input, 
             chunks_callback=MainView.update_view_with_chunks,
             result_callback=MainView.update_view_with_result
         )

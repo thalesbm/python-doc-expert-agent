@@ -57,7 +57,7 @@ class MainView():
                 question=question,
                 connection_type=connection_type_option,
                 prompt_type=prompt_type_option,
-                files=files
+                file=files
             )
             callback(input)
 
