@@ -44,6 +44,7 @@ class MainView():
         
         with st.sidebar:
             st.title("Documentos")
+            st.write("Caso não anexar um arquivo, iremos utilizar o default no path: doc-expert-agent/files/tcc.pdf")
             files = st.file_uploader(
                 key="file-pdf",
                 label="Anexar arquivos PDF",
@@ -55,7 +56,8 @@ class MainView():
             input = Input(
                 question=question,
                 connection_type=connection_type_option,
-                prompt_type=prompt_type_option
+                prompt_type=prompt_type_option,
+                files=files
             )
             callback(input)
 

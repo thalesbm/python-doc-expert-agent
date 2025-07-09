@@ -32,3 +32,4 @@ tabulate
 arxiv
 ragas
 datasets
+PyPDF2
