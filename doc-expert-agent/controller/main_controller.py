@@ -5,6 +5,8 @@ from pipeline.retrieval import Retrieval
 from pipeline.openai import Key
 from pipeline.evaluate import Evaluate
 
+from streamlit.runtime.uploaded_file_manager import UploadedFile
+
 from service.select_service import SelectServices
 from model.input import Input
 
@@ -14,13 +16,12 @@ logger = logging.getLogger(__name__)
 
 class MainController:
 
-    def __init__(self, input: Input):
+    def __init__(self, file: UploadedFile):
         logger.info("Iniciando setup do RAG...")
 
         self.api_key = Key.get_openai_key()
-        self.input = input
 
-        document = Loader.load_document(self.input.file)
+        document = Loader.load_document(file)
         chunks = Splitter.split_document(document)
         self.vector_store = Embedding.embedding_document(chunks, self.api_key)
 
@@ -28,15 +29,16 @@ class MainController:
 
     def run(
             self, 
+            input: Input,
             chunks_callback, 
             result_callback
         ):
-        logger.info(f"Pergunta recebida: {self.input.question}")
+        logger.info(f"Pergunta recebida: {input.question}")
 
         # retrieval
         chunks = Retrieval.retrieve_similar_documents(
             vector_store=self.vector_store, 
-            question=self.input.question
+            question=input.question
         )
         chunks_callback(chunks)
 
@@ -45,7 +47,7 @@ class MainController:
             answers=chunks,
             api_key=self.api_key,
         ).run(
-            input=self.input
+            input=input
         )
         result_callback(result)
 
@@ -53,7 +55,7 @@ class MainController:
         evaluate = Evaluate(
             answer=result,
             chunks=chunks, 
-            question=self.input.question
+            question=input.question
         ).evaluate_answer()
 
         return evaluate
