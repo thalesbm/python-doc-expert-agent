@@ -1,4 +1,6 @@
 from service.agent_basic_memory.prompt import Prompt
+
+from langchain.memory import ConversationBufferMemory
 from infra.openai_client import OpenAIClientFactory
 
 import logging
@@ -14,7 +16,9 @@ class BasicConnectionWithMemoryToOpenAI:
     def connect(self, api_key: str) -> str:
         logger.info("Iniciando conexão com a open AI do documento...")
 
-        prompt = Prompt(context=self.context, question=self.question).default_prompt()
+        memory = ConversationBufferMemory()
+
+        prompt = Prompt(context=self.context, question=self.question, memory=memory.buffer).default_prompt()
 
         chat = OpenAIClientFactory(api_key=api_key).create_basic_client()
 
@@ -25,5 +29,7 @@ class BasicConnectionWithMemoryToOpenAI:
         logger.info("===================================")
 
         logger.info("Finalizando conexão com a open AI do documento")
+
+        memory.save_context({"input": self.question}, {"output": response.content})
 
         return response.content

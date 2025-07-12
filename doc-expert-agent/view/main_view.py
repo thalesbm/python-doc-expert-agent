@@ -18,15 +18,14 @@ class MainView:
         
         prompt_type_option = None
         question = None
-        files = None
 
         connection_type_option = MainView.get_connection_typpe()
 
         if connection_type_option == "conexao-simples-llm":
-            prompt_type_option, question, files = MainView.render_conexao_simples_llm()
+            prompt_type_option, question = MainView.render_conexao_simples_llm()
         
         elif connection_type_option in ["conexao-simples-llm-memory"]:
-            question, files = MainView.render_conexao_simples_memory_llm()
+            question = MainView.render_conexao_simples_memory_llm()
             
         elif connection_type_option in ["conexao-com-tool", "conexao-com-tool-react"]:
             question = MainView.render_conexao_tools_llm()
@@ -38,8 +37,7 @@ class MainView:
             input = Input(
                 question=question,
                 connection_type=connection_type_option,
-                prompt_type=prompt_type_option,
-                file=files
+                prompt_type=prompt_type_option
             )
             callback(input)
 
@@ -68,31 +66,32 @@ class MainView:
             ]
         )
         question = st.text_input(
-            "✏️ Faça sua pergunta", 
+            "✏️ Faça sua pergunta sobre o TCC da minha faculdade", 
             value = "qual foi o aplicativo escolhido para o projeto?"
         )
-        
-        files = MainView.display_side_bar()
 
-        return prompt_type_option, question, files
+        return prompt_type_option, question
 
     @staticmethod
     def render_conexao_simples_memory_llm():
         question = st.text_input(
-            "✏️ Faça sua pergunta", 
-            value = "Resume o documento anexado"
+            "✏️ Faça sua pergunta sobre o primeiro capitulo do livro Harry Potter e a Pedra Filosofal", 
+            value = "Sempre que responder uma pergunta, comece falando meu nome: Thales. Agora me resume o livro em uma frase de 15 palavras?"
         )  
-                
-        files = MainView.display_side_bar()
 
-        return question, files
+        return question
 
     @staticmethod
     def render_conexao_tools_llm():
         question = st.text_input(
-            "✏️ Faça sua pergunta", 
+            "✏️ Faça sua pergunta sobre o TCC da minha faculdade", 
             value = "Quantos celulares o app pode rodar em 2025?"
         )
+
+        with st.sidebar:
+            st.title("Observações")
+            st.write("Esse tipo de conexão chama uma tool caso o LLM identifique que o usuário fazer alguma perguntou relacionada a quantidade de celulares")
+           
         return question
 
     @staticmethod
@@ -100,6 +99,8 @@ class MainView:
         with st.sidebar:
             st.title("📄 Documentos")
             st.write("Caso não anexe um arquivo, usaremos o padrão: `doc-expert-agent/files/tcc.pdf`")
+
+            st.write("Na pasta `doc-expert-agent/files/` tem alguns arquivos em pdf para anexar")
             return st.file_uploader(
                 key="file-pdf",
                 label="Anexar PDF",
