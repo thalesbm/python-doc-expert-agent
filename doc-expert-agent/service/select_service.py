@@ -5,7 +5,7 @@ from model.enum.prompt_type import PromptType
 from model.input import Input
 
 from service.agent_basic.connection import BasicConnectionToOpenAI
-from service.agent_basic_complete_memory.connection import BasicConnectionWithMemoryToOpenAI
+from service.agent_memory_complete.connection import BasicConnectionWithMemoryToOpenAI
 from service.agent_tools.connection import ConnectionWithToolsToOpenAI
 from service.agent_react.connection import ConnectionWithReactToOpenAI
 
@@ -42,7 +42,7 @@ class SelectServices:
         elif type == ConnectionType.CONNECTION_WITH_TOOLS_AND_REACT:
             result = self.connect_with_tools_and_react(input)
 
-        elif type == ConnectionType.BASIC_CONNECTION_WITH_COMPLETE_MEMORY:
+        elif type == ConnectionType.CONNECTION_WITH_COMPLETE_MEMORY:
             result = self.basic_connect_with_memory(input)
 
         logger.info("Finalizado SelectServices")    

@@ -1,4 +1,4 @@
-from service.agent_basic_complete_memory.prompt import Prompt
+from service.agent_memory_complete.prompt import Prompt
 
 from langchain.memory import ConversationBufferMemory
 from infra.openai_client import OpenAIClientFactory

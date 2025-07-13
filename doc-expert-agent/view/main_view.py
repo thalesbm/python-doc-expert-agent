@@ -24,7 +24,7 @@ class MainView:
         if connection_type_option == "conexao-simples-llm":
             prompt_type_option, question = MainView.render_conexao_simples_llm()
         
-        elif connection_type_option in ["conexao-simples-llm-complete-memory"]:
+        elif connection_type_option in ["conexao-llm-complete-memory", "conexao-llm-summary-memory"]:
             question = MainView.render_conexao_simples_complete_memory_llm()
             
         elif connection_type_option in ["conexao-com-tool", "conexao-com-tool-react"]:
@@ -45,7 +45,8 @@ class MainView:
         return st.selectbox("🔌 Tipo de Conexão",
             [
                 "conexao-simples-llm", 
-                "conexao-simples-llm-complete-memory",
+                "conexao-llm-complete-memory",
+                "conexao-llm-summary-memory",
                 "conexao-com-tool", 
                 "conexao-com-tool-react", 
                 
@@ -82,6 +83,7 @@ class MainView:
         with st.sidebar:
             st.title("Observações")
             st.write("Utilizando memória de histórico completa: (ConversationBufferMemory)")
+            st.write("Utilizando memória com resumo automático: (ConversationSummaryMemory)")
 
         return question
 
