@@ -17,12 +17,12 @@ class MainController:
     def __init__(self, connection_type: str):
         logger.info("Iniciando setup do RAG...")
 
-        # self.api_key = Key.get_openai_key()
+        self.api_key = Key.get_openai_key()
 
-        # document = Loader.load_document(connection_type=connection_type)
-        # chunks = Splitter.split_document(document)
+        document = Loader.load_document(connection_type=connection_type)
+        chunks = Splitter.split_document(document)
         
-        # Embedding.embedding_document(chunks, self.api_key)
+        Embedding.embedding_document(chunks, self.api_key)
 
         logger.info("Setup do RAG finalizado!")
 
@@ -33,13 +33,6 @@ class MainController:
             result_callback
         ):        
         logger.info(f"Pergunta recebida: {input.question}")
-
-        self.api_key = Key.get_openai_key()
-
-        document = Loader.load_document(connection_type=input.connection_type)
-        chunks = Splitter.split_document(document)
-        
-        Embedding.embedding_document(chunks, self.api_key)
 
         # retrieval
         chunks = Retrieval().retrieve_similar_documents(

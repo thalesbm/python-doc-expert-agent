@@ -25,11 +25,16 @@ class Embedding:
 
         if os.path.exists(path):
             logger.info("Removendo db")
-            shutil.rmtree(path, ignore_errors=True)
+            shutil.rmtree(path)
+
+        if not os.path.exists(path):
+            logger.info("Path foi removido com sucesso")
+        else:
+            logger.info("Path ainda existe")    
 
         logger.info("Iniciando analise")
         
-        os.makedirs(path, exist_ok=True)
+        os.makedirs(path)
         
         vector_store = Chroma.from_documents(
             documents=chunks,
