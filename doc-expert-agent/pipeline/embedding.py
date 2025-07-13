@@ -21,16 +21,23 @@ class Embedding:
 
         embeddings = OpenAIEmbeddings(openai_api_key=api_key)
 
-        path = "./files/db"
+        path = "./files/chroma_db"
 
         if os.path.exists(path):
+            logger.info("Removendo db")
             shutil.rmtree(path, ignore_errors=True)
 
+        logger.info("Iniciando analise")
+        
+        os.makedirs(path, exist_ok=True)
+        
         vector_store = Chroma.from_documents(
             documents=chunks,
             embedding=embeddings,
             persist_directory=path
         )
+
+        logger.info("Persistindo no db")
         vector_store.persist()
 
         logger.info("Finalizando embedding do documento")

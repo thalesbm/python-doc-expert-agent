@@ -190,7 +190,7 @@ cython_debug/
 .DS_Store
 
 # db
-files/db/
+files/chroma_db/
 
 # Cursor
 #  Cursor is an AI-powered code editor. `.cursorignore` specifies files/directories to
