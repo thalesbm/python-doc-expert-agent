@@ -5,8 +5,6 @@ from pipeline.retrieval import Retrieval
 from pipeline.openai import Key
 from pipeline.evaluate import Evaluate
 
-from streamlit.runtime.uploaded_file_manager import UploadedFile
-
 from service.select_service import SelectServices
 from model.input import Input
 
@@ -16,12 +14,12 @@ logger = logging.getLogger(__name__)
 
 class MainController:
 
-    def __init__(self, file: UploadedFile):
+    def __init__(self, connection_type: str):
         logger.info("Iniciando setup do RAG...")
 
         self.api_key = Key.get_openai_key()
 
-        document = Loader.load_document(file)
+        document = Loader.load_document(connection_type=connection_type)
         chunks = Splitter.split_document(document)
         self.vector_store = Embedding.embedding_document(chunks, self.api_key)
 

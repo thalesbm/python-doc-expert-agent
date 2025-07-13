@@ -10,7 +10,8 @@ class Prompt:
         prompt = [
             SystemMessage(content="Você é um aluno universitario que escreveu um TCC"),
             HumanMessage(content=f"Se baseia APENAS no contexto para sua resposta: \n{self.context}"),
-            HumanMessage(content=f"Responda a pergunta de forma clara e objetiva: \n{self.question}")
+            HumanMessage(content=f"Responda a pergunta de forma clara e objetiva: \n{self.question}"),
+            HumanMessage(content=("Não invente respostas. ")),
         ]
 
         return prompt
@@ -37,14 +38,14 @@ class Prompt:
         prompt = [
             SystemMessage(content="Você é um aluno universitario que escreveu um TCC"),
 
-            HumanMessage(content="Qual foi o objetivo do seu TCC?"),
-            AIMessage(content="O objetivo do meu TCC foi desenvolver um app para ensino de física."),
+            HumanMessage(content="Qual foi o objetivo do seu TCC? "),
+            AIMessage(content="O objetivo do meu TCC foi desenvolver um app para ensino de física. "),
 
-            HumanMessage(content="Que plataforma foi usada para o desenvolvimento?"),
-            AIMessage(content="Utilizei a plataforma Intel XDK."),
+            HumanMessage(content="Que plataforma foi usada para o desenvolvimento? "),
+            AIMessage(content="Utilizei a plataforma Intel XDK. "),
 
-            HumanMessage(content="Qual foi o ano que o projeto foi apresentado?"),
-            AIMessage(content="O ano foi 2014."),
+            HumanMessage(content="Qual foi o ano que o projeto foi apresentado? "),
+            AIMessage(content="O ano foi 2014. "),
 
             HumanMessage(content=f"Se baseia APENAS no contexto para sua resposta: \n{self.context}"),
             HumanMessage(content=f"Pergunta: \n{self.question}"),
@@ -62,5 +63,5 @@ class Prompt:
 
     def get_definition_exemplification(self):
         prompt = self.default_prompt()
-        prompt.append(HumanMessage(content=("Em seguida, faça uma piada")))
+        prompt.append(HumanMessage(content=("Em seguida, faça uma piada sore fisica")))
         return prompt

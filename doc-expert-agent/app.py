@@ -17,7 +17,7 @@ def init():
 def get_form(input: Input):
 
     if "controller" not in st.session_state:
-        st.session_state.controller = MainController(file=input.file)
+        st.session_state.controller = MainController(connection_type=input.connection_type)
         logger.info("Controller inicializado!")
 
     if input.question:

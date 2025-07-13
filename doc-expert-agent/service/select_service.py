@@ -4,7 +4,8 @@ from model.enum.connection_type import ConnectionType
 from model.enum.prompt_type import PromptType
 from model.input import Input
 
-from service.agent_basic.connection import BaseConnectionToOpenAI
+from service.agent_basic.connection import BasicConnectionToOpenAI
+from service.agent_basic_memory.connection import BasicConnectionWithMemoryToOpenAI
 from service.agent_tools.connection import ConnectionWithToolsToOpenAI
 from service.agent_react.connection import ConnectionWithReactToOpenAI
 
@@ -33,7 +34,7 @@ class SelectServices:
         type = ConnectionType(input.connection_type)
 
         if type == ConnectionType.BASIC_CONNECTION:
-            result = self.base_connect(input)
+            result = self.basic_connect(input)
 
         elif type == ConnectionType.CONNECTION_WITH_TOOLS:
             result = self.connect_with_tools(input)
@@ -41,15 +42,24 @@ class SelectServices:
         elif type == ConnectionType.CONNECTION_WITH_TOOLS_AND_REACT:
             result = self.connect_with_tools_and_react(input)
 
+        elif type == ConnectionType.BASIC_CONNECTION_WITH_MEMORY:
+            result = self.basic_connect_with_memory(input)
+
         logger.info("Finalizado SelectServices")    
 
         return result
 
-    def base_connect(self, input: Input):
-        return BaseConnectionToOpenAI(
+    def basic_connect(self, input: Input):
+        return BasicConnectionToOpenAI(
             context=self.get_context(), 
             question=input.question, 
             prompt_type=PromptType(input.prompt_type)
+        ).connect(api_key=self.api_key)
+    
+    def basic_connect_with_memory(self, input: Input):
+        return BasicConnectionWithMemoryToOpenAI(
+            context=self.get_context(), 
+            question=input.question
         ).connect(api_key=self.api_key)
 
     def connect_with_tools(self, input: Input):
