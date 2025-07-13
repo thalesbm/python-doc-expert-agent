@@ -21,7 +21,8 @@ class MainController:
 
         document = Loader.load_document(connection_type=connection_type)
         chunks = Splitter.split_document(document)
-        self.vector_store = Embedding.embedding_document(chunks, self.api_key)
+        
+        Embedding.embedding_document(chunks, self.api_key)
 
         logger.info("Setup do RAG finalizado!")
 
@@ -35,7 +36,7 @@ class MainController:
 
         # retrieval
         chunks = Retrieval.retrieve_similar_documents(
-            vector_store=self.vector_store, 
+            api_key=self.api_key,
             question=input.question
         )
         chunks_callback(chunks)

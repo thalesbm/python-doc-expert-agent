@@ -1,3 +1,4 @@
+from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores.chroma import Chroma
 
 from model.answer import Answer
@@ -10,10 +11,10 @@ logger = logging.getLogger(__name__)
 
 class Retrieval:
 
-    def retrieve_similar_documents(vector_store: Chroma, question: str) -> List[Answer]: 
+    def retrieve_similar_documents(question: str, api_key: str) -> List[Answer]: 
         logger.info("Iniciando retrieval do documento...")
 
-        docs = vector_store.max_marginal_relevance_search(question, k=5)
+        docs = get_vector_store(api_key=api_key).max_marginal_relevance_search(question, k=5)
 
         if not docs:
             logger.warning("Nenhum documento similar encontrado para a pergunta.")
@@ -36,3 +37,12 @@ class Retrieval:
         logger.info("Finalizando retrieval do documento")
 
         return answers
+    
+def get_vector_store(api_key: str):
+    path = "./files/db"
+
+    vector_store = Chroma(
+        embedding_function=OpenAIEmbeddings(api_key=api_key),
+        persist_directory=path
+    )
+    return vector_store

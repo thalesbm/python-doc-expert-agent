@@ -16,9 +16,20 @@ def init():
     
 def get_form(input: Input):
 
+    # if "connection_type" not in st.session_state:
+    #     st.session_state.connection_type = input.connection_type
+
+    # if "controller" not in st.session_state or st.session_state.connection_type != input.connection_type:
+    #     st.session_state.controller = MainController(connection_type=input.connection_type)
+    #     st.session_state.connection_type = input.connection_type
+    #     logger.info("Controller reinicializado!")
+
     if "controller" not in st.session_state:
         st.session_state.controller = MainController(connection_type=input.connection_type)
         logger.info("Controller inicializado!")
+
+    # st.write(f"Controller atual: {st.session_state.controller}")
+    # st.write(f"Connection type salvo: {st.session_state.connection_type}")
 
     if input.question:
         evaluate = st.session_state.controller.run(
