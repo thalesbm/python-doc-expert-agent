@@ -7,6 +7,8 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+memory = ConversationBufferMemory()
+
 class BasicConnectionWithMemoryToOpenAI:
 
     def __init__(self, context: str, question: str):
@@ -16,11 +18,11 @@ class BasicConnectionWithMemoryToOpenAI:
     def connect(self, api_key: str) -> str:
         logger.info("Iniciando conexão com a open AI do documento...")
 
-        memory = ConversationBufferMemory()
-
         prompt = Prompt(context=self.context, question=self.question, memory=memory.buffer).default_prompt()
 
         chat = OpenAIClientFactory(api_key=api_key).create_basic_client()
+
+        logger.info(prompt)
 
         response = chat.invoke(prompt)
 

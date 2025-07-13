@@ -76,8 +76,12 @@ class MainView:
     def render_conexao_simples_memory_llm():
         question = st.text_input(
             "✏️ Faça sua pergunta sobre o primeiro capitulo do livro Harry Potter e a Pedra Filosofal", 
-            value = "Sempre que responder uma pergunta, comece falando meu nome: Thales. Agora me resume o livro em uma frase de 15 palavras?"
-        )  
+            value = "Sempre que eu perguntar qual o meu nome, voce responde: Thales. Resume o livro em 15 palavras."
+        )
+
+        with st.sidebar:
+            st.title("Observações")
+            st.write("Utilizando memória de histórico completa: (ConversationBufferMemory)")
 
         return question
 
@@ -90,7 +94,7 @@ class MainView:
 
         with st.sidebar:
             st.title("Observações")
-            st.write("Esse tipo de conexão chama uma tool caso o LLM identifique que o usuário fazer alguma perguntou relacionada a quantidade de celulares")
+            st.write("Esse tipo de conexão chama uma tool caso o LLM identifique que o usuário fez alguma perguntou relacionada a quantidade de celulares disponivel no Brasil")
            
         return question
 
