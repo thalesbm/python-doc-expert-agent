@@ -17,7 +17,7 @@ class Loader:
         documents = []
 
         file_path = "files/tcc.pdf"
-        if (ConnectionType(connection_type) == ConnectionType.BASIC_CONNECTION_WITH_MEMORY):
+        if (ConnectionType(connection_type) == ConnectionType.BASIC_CONNECTION_WITH_COMPLETE_MEMORY):
             file_path = "files/harry-potter-1-cap-1.pdf"
             logger.info("Selecionado livro do HP")
         

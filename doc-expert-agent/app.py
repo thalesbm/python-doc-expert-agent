@@ -20,7 +20,7 @@ def get_form(input: Input):
 
     controller = None
 
-    if ConnectionType(input.connection_type) == ConnectionType.BASIC_CONNECTION_WITH_MEMORY:
+    if ConnectionType(input.connection_type) == ConnectionType.BASIC_CONNECTION_WITH_COMPLETE_MEMORY:
         logger.info("View: ConnectionType.BASIC_CONNECTION_WITH_MEMORY")
         if "controller_memory" not in st.session_state:
             st.session_state.controller_memory = MainController(connection_type=input.connection_type, database_path=DatabasePath.HP_PATH)

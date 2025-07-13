@@ -42,7 +42,7 @@ class SelectServices:
         elif type == ConnectionType.CONNECTION_WITH_TOOLS_AND_REACT:
             result = self.connect_with_tools_and_react(input)
 
-        elif type == ConnectionType.BASIC_CONNECTION_WITH_MEMORY:
+        elif type == ConnectionType.BASIC_CONNECTION_WITH_COMPLETE_MEMORY:
             result = self.basic_connect_with_memory(input)
 
         logger.info("Finalizado SelectServices")    
