@@ -1,4 +1,4 @@
-from service.agent_basic_memory.prompt import Prompt
+from service.agent_basic_complete_memory.prompt import Prompt
 
 from langchain.memory import ConversationBufferMemory
 from infra.openai_client import OpenAIClientFactory
@@ -26,6 +26,8 @@ class BasicConnectionWithMemoryToOpenAI:
 
         response = chat.invoke(prompt)
 
+        logger.info("===================================")
+        logger.info(f"User: {self.question}")
         logger.info("===================================")
         logger.info(f"OpenAI: {response.content}")
         logger.info("===================================")

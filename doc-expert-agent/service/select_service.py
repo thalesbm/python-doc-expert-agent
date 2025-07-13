@@ -5,7 +5,7 @@ from model.enum.prompt_type import PromptType
 from model.input import Input
 
 from service.agent_basic.connection import BasicConnectionToOpenAI
-from service.agent_basic_memory.connection import BasicConnectionWithMemoryToOpenAI
+from service.agent_basic_complete_memory.connection import BasicConnectionWithMemoryToOpenAI
 from service.agent_tools.connection import ConnectionWithToolsToOpenAI
 from service.agent_react.connection import ConnectionWithReactToOpenAI
 

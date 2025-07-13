@@ -24,8 +24,8 @@ class MainView:
         if connection_type_option == "conexao-simples-llm":
             prompt_type_option, question = MainView.render_conexao_simples_llm()
         
-        elif connection_type_option in ["conexao-simples-llm-memory"]:
-            question = MainView.render_conexao_simples_memory_llm()
+        elif connection_type_option in ["conexao-simples-llm-complete-memory"]:
+            question = MainView.render_conexao_simples_complete_memory_llm()
             
         elif connection_type_option in ["conexao-com-tool", "conexao-com-tool-react"]:
             question = MainView.render_conexao_tools_llm()
@@ -45,7 +45,7 @@ class MainView:
         return st.selectbox("🔌 Tipo de Conexão",
             [
                 "conexao-simples-llm", 
-                "conexao-simples-llm-memory",
+                "conexao-simples-llm-complete-memory",
                 "conexao-com-tool", 
                 "conexao-com-tool-react", 
                 
@@ -73,7 +73,7 @@ class MainView:
         return prompt_type_option, question
 
     @staticmethod
-    def render_conexao_simples_memory_llm():
+    def render_conexao_simples_complete_memory_llm():
         question = st.text_input(
             "✏️ Faça sua pergunta sobre o primeiro capitulo do livro Harry Potter e a Pedra Filosofal", 
             value = "Sempre que eu perguntar qual o meu nome, voce responde: Thales. Resume o livro em 15 palavras."
