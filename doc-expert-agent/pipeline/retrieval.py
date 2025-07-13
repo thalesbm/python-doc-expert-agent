@@ -15,10 +15,10 @@ class Retrieval:
     def __init__(self):
         pass
 
-    def retrieve_similar_documents(self, question: str, api_key: str) -> List[Answer]: 
+    def retrieve_similar_documents(self, question: str, api_key: str, database_path: str) -> List[Answer]: 
         logger.info("Iniciando retrieval do documento...")
 
-        docs = self.get_vector_store(api_key=api_key).max_marginal_relevance_search(question, k=5)
+        docs = self.get_vector_store(api_key=api_key, database_path=database_path).max_marginal_relevance_search(question, k=5)
 
         if not docs:
             logger.warning("Nenhum documento similar encontrado para a pergunta.")
@@ -42,14 +42,13 @@ class Retrieval:
 
         return answers
     
-    def get_vector_store(self, api_key: str):
-        path = "./files/chroma_db"
+    def get_vector_store(self, api_key: str, database_path: str):
 
-        if not os.path.exists(path):
-            logger.error(f"O banco vetorial {path} não existe. Rode o indexador primeiro!")
+        if not os.path.exists(database_path):
+            logger.error(f"O banco vetorial {database_path} não existe. Rode o indexador primeiro!")
 
         vector_store = Chroma(
             embedding_function=OpenAIEmbeddings(api_key=api_key),
-            persist_directory=path
+            persist_directory=database_path
         )
         return vector_store
