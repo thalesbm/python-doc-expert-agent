@@ -1,6 +1,7 @@
 from controller.main_controller import MainController
 from view.main_view import MainView
 from model.input import Input
+from model.enum.connection_type import ConnectionType
 
 import streamlit as st
 import logging
@@ -16,35 +17,32 @@ def init():
     
 def get_form(input: Input):
 
-    # if "connection_type" not in st.session_state:
-    #     st.session_state.connection_type = input.connection_type
+    controller = None
 
-    # if "controller" not in st.session_state:
-    #     st.session_state.controller = MainController(connection_type=input.connection_type)
+    if ConnectionType(input.connection_type) == ConnectionType.BASIC_CONNECTION_WITH_MEMORY:
+        logger.info("View: ConnectionType.BASIC_CONNECTION_WITH_MEMORY")
+        if "controller_memory" not in st.session_state:
+            st.session_state.controller_memory = MainController(connection_type=input.connection_type)
+            logger.info("controller_memory inicializado!")
+        
+        if input.question:
+            controller = st.session_state.controller_memory
 
-    # if st.session_state.connection_type != input.connection_type:
-    #     st.session_state.controller = MainController(connection_type=input.connection_type)
-    #     logger.info("Controller inicializado!")
+    else:
+        if "controller_default" not in st.session_state:
+            logger.info("View: Others")
+            st.session_state.controller_default = MainController(connection_type=input.connection_type)
+            logger.info("controller_default inicializado!")
 
-    # if "controller" not in st.session_state or st.session_state.connection_type != input.connection_type:
-    #     st.session_state.controller = MainController(connection_type=input.connection_type)
-    #     st.session_state.connection_type = input.connection_type
-    #     logger.info("Controller reinicializado!")
-
-    if "controller" not in st.session_state:
-        st.session_state.controller = MainController(connection_type=input.connection_type)
-        logger.info("Controller inicializado!")
-
-    # st.write(f"Controller atual: {st.session_state.controller}")
-    # st.write(f"Connection type salvo: {st.session_state.connection_type}")
-
-    if input.question:
-        evaluate = st.session_state.controller.run(
-            input=input,
-            chunks_callback=MainView.update_view_with_chunks,
-            result_callback=MainView.update_view_with_result
-        )
-        MainView.update_view_with_evaluate(evaluate)
+        if input.question:
+            controller = st.session_state.controller_default
+    
+    evaluate = controller.run(
+        input=input,
+        chunks_callback=MainView.update_view_with_chunks,
+        result_callback=MainView.update_view_with_result
+    )
+    MainView.update_view_with_evaluate(evaluate)
 
 if __name__ == "__main__":
     init()
