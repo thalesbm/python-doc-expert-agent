@@ -1,4 +1,4 @@
-from service.agent_memory_complete.prompt import Prompt
+from service.agent_memory_summary.prompt import Prompt
 
 from langchain.memory import ConversationBufferMemory
 from infra.openai_client import OpenAIClientFactory
@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 memory = ConversationBufferMemory()
 
-class BasicConnectionWithMemoryToOpenAI:
+class ConnectionWithCompleteMemoryToOpenAI:
 
     def __init__(self, context: str, question: str):
         self.context = context

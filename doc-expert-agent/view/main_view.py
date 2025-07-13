@@ -25,7 +25,7 @@ class MainView:
             prompt_type_option, question = MainView.render_conexao_simples_llm()
         
         elif connection_type_option in ["conexao-llm-complete-memory", "conexao-llm-summary-memory"]:
-            question = MainView.render_conexao_simples_complete_memory_llm()
+            question = MainView.render_conexao_memory_llm()
             
         elif connection_type_option in ["conexao-com-tool", "conexao-com-tool-react"]:
             question = MainView.render_conexao_tools_llm()
@@ -74,7 +74,7 @@ class MainView:
         return prompt_type_option, question
 
     @staticmethod
-    def render_conexao_simples_complete_memory_llm():
+    def render_conexao_memory_llm():
         question = st.text_input(
             "✏️ Faça sua pergunta sobre o primeiro capitulo do livro Harry Potter e a Pedra Filosofal", 
             value = "Sempre que eu perguntar qual o meu nome, voce responde: Thales. Resume o livro em 15 palavras."
