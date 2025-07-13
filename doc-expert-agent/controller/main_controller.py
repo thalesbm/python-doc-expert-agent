@@ -7,6 +7,7 @@ from pipeline.evaluate import Evaluate
 
 from service.select_service import SelectServices
 from model.input import Input
+from model.enum.database_path import DatabasePath
 
 import logging
 
@@ -14,14 +15,17 @@ logger = logging.getLogger(__name__)
 
 class MainController:
 
-    def __init__(self, connection_type: str):
+    def __init__(self, connection_type: str, database_path: DatabasePath):
         logger.info("Iniciando setup do RAG...")
+
+        self.database_path = database_path
 
         self.api_key = Key.get_openai_key()
 
         document = Loader.load_document(connection_type=connection_type)
         chunks = Splitter.split_document(document)
-        self.vector_store = Embedding.embedding_document(chunks, self.api_key)
+        
+        Embedding.embedding_document(chunks, self.api_key, database_path.value)
 
         logger.info("Setup do RAG finalizado!")
 
@@ -30,12 +34,13 @@ class MainController:
             input: Input,
             chunks_callback, 
             result_callback
-        ):
+        ):        
         logger.info(f"Pergunta recebida: {input.question}")
 
         # retrieval
-        chunks = Retrieval.retrieve_similar_documents(
-            vector_store=self.vector_store, 
+        chunks = Retrieval().retrieve_similar_documents(
+            database_path=self.database_path.value,
+            api_key=self.api_key,
             question=input.question
         )
         chunks_callback(chunks)

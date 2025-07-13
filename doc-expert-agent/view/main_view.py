@@ -67,7 +67,7 @@ class MainView:
         )
         question = st.text_input(
             "✏️ Faça sua pergunta sobre o TCC da minha faculdade", 
-            value = "qual foi o aplicativo escolhido para o projeto?"
+            value = "qual o titulo do trabalho?"
         )
 
         return prompt_type_option, question
