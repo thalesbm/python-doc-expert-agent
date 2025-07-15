@@ -22,10 +22,8 @@ class Retrieval:
         docs = vector_store.max_marginal_relevance_search(
             query=question,
             k=5,
-            score_threshold=0.8
+            score_threshold=1.0
         )
-
-        # {'answer_relevancy': 0.9013, 'faithfulness': 1.0000, 'context_recall': 1.0000}
 
         if not docs:
             logger.warning("Nenhum documento similar encontrado para a pergunta.")
