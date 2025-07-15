@@ -22,7 +22,8 @@ class Retrieval:
         docs = vector_store.max_marginal_relevance_search(
             query=question,
             k=5,
-            score_threshold=1.0
+            fetch_k=20,
+            score_threshold=0.85,
         )
 
         if not docs:

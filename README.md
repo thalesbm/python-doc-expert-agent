@@ -8,7 +8,15 @@
 - [DONE] Utiliza ReAct para deixar o LLM decidir o que fazer até chegar na resposta final.
 - [DONE] Utiliza ConversationSummaryMemory (memória com resumo).
 - [DONE] Utiliza ConversationBufferMemory (histórico completo).
-- [DOING] Utiliza tecnicas de Hiperparametrização par RAG
+- [DONE] Utiliza tecnicas de Hiperparametrização par RAG
+
+#### Parametros utilizados no RAG; 
+- k (top_k): 5
+- Chunk size: 1024
+- Chunk overlap: 150
+- Score Threshold: 0.8
+- Retrieval Strategy: 20
+- Temperatura: 0
 
 #### Comandos:
 ```bash

@@ -43,7 +43,8 @@ def obter_resposta_rag(vector_store, pergunta):
     docs = vector_store.max_marginal_relevance_search(
         query=pergunta,
         k=5,
-        score_threshold=0.5
+        fetch_k=20,
+        score_threshold=0.85,
     )
 
     resposta = " ".join([doc.page_content for doc in docs])
@@ -61,7 +62,7 @@ def avaliar_rag(vector_store):
         print(f"Esperado: {ideal}")
         print(f"Similaridade (0-100): {score}")
 
-        if score >= 70:
+        if score >= 80:
             acertos += 1
 
     total = len(avaliacao)
