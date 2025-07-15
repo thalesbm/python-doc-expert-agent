@@ -18,7 +18,13 @@ class Retrieval:
     def retrieve_similar_documents(self, question: str, api_key: str, database_path: str) -> List[Answer]: 
         logger.info("Iniciando retrieval do documento...")
 
-        docs = self.get_vector_store(api_key=api_key, database_path=database_path).max_marginal_relevance_search(question, k=5)
+        vector_store = self.get_vector_store(api_key=api_key, database_path=database_path)
+        docs = vector_store.max_marginal_relevance_search(
+            query=question,
+            k=5,
+            fetch_k=20,
+            score_threshold=0.85,
+        )
 
         if not docs:
             logger.warning("Nenhum documento similar encontrado para a pergunta.")

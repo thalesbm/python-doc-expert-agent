@@ -16,7 +16,7 @@ class Splitter:
             return []
 
         text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=1000,
+            chunk_size=1024,
             chunk_overlap=150,
             separators=["\n\n", "\n", ". ", "? ", "! ", "; ", ": ", " "]
         )
