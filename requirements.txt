@@ -33,3 +33,4 @@ arxiv
 ragas
 datasets
 PyPDF2
+fuzzywuzzy[speedup]
