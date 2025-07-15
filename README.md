@@ -6,7 +6,8 @@
 - [DONE] Utiliza Ragas para avaliar se o RAG realmente responde corretamente (Context Recall, Faithfulness, Answer Relevance).
 - [DONE] Utiliza outros conceitos de prompt Engineering.
 - [DONE] Utiliza ReAct para deixar o LLM decidir o que fazer até chegar na resposta final.
-- [DOING] Utiliza ConversationSummaryMemory (memória com resumo) e ConversationBufferMemory (histórico completo).
+- [DONE] Utiliza ConversationSummaryMemory (memória com resumo).
+- [DONE] Utiliza ConversationBufferMemory (histórico completo).
 
 #### Comandos:
 ```bash

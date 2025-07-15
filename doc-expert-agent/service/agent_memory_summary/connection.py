@@ -1,15 +1,15 @@
 from service.agent_memory_complete.prompt import Prompt
 
-from langchain.memory import ConversationBufferMemory
+from langchain.memory import ConversationSummaryMemory
 from infra.openai_client import OpenAIClientFactory
 
 import logging
 
 logger = logging.getLogger(__name__)
 
-memory = ConversationBufferMemory()
-
 class ConnectionWithSummaryMemoryToOpenAI:
+
+    memory = None
 
     def __init__(self, context: str, question: str):
         self.context = context
@@ -18,22 +18,27 @@ class ConnectionWithSummaryMemoryToOpenAI:
     def connect(self, api_key: str) -> str:
         logger.info("Iniciando conexão com a open AI do documento...")
 
-        # prompt = Prompt(context=self.context, question=self.question, memory=memory.buffer).default_prompt()
+        chat = OpenAIClientFactory(api_key=api_key).create_basic_client()
 
-        # chat = OpenAIClientFactory(api_key=api_key).create_basic_client()
+        if ConnectionWithSummaryMemoryToOpenAI.memory is None:
+            ConnectionWithSummaryMemoryToOpenAI.memory = ConversationSummaryMemory(llm=chat)
 
-        # logger.info(prompt)
+        memory = ConnectionWithSummaryMemoryToOpenAI.memory
 
-        # response = chat.invoke(prompt)
+        prompt = Prompt(context=self.context, question=self.question, memory=memory.buffer).default_prompt()
 
-        # logger.info("===================================")
-        # logger.info(f"User: {self.question}")
-        # logger.info("===================================")
-        # logger.info(f"OpenAI: {response.content}")
-        # logger.info("===================================")
+        logger.info(prompt)
 
-        # logger.info("Finalizando conexão com a open AI do documento")
+        response = chat.invoke(prompt)
 
-        # memory.save_context({"input": self.question}, {"output": response.content})
+        logger.info("===================================")
+        logger.info(f"User: {self.question}")
+        logger.info("===================================")
+        logger.info(f"OpenAI: {response.content}")
+        logger.info("===================================")
 
-        return ""
+        logger.info("Finalizando conexão com a open AI do documento")
+
+        memory.save_context({"input": self.question}, {"output": response.content})
+
+        return response.content
