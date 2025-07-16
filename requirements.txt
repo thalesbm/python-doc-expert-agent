@@ -8,9 +8,9 @@ matplotlib
 colorama
 streamlit
 langchain-chroma
-langchainhub==0.1.15
-langchain==0.1.16
-langchain-community==0.0.33
+langchainhub
+langchain
+langchain-community
 langchain-openai
 huggingface_hub==0.22.2
 transformers==4.39.3
@@ -34,3 +34,6 @@ ragas
 datasets
 PyPDF2
 fuzzywuzzy[speedup]
+langchain 
+langchain-openai
+openevals
