@@ -8,7 +8,7 @@
 - [DONE] Utiliza ReAct para deixar o LLM decidir o que fazer até chegar na resposta final.
 - [DONE] Utiliza ConversationSummaryMemory (memória com resumo).
 - [DONE] Utiliza ConversationBufferMemory (histórico completo).
-- [DONE] Utiliza tecnicas de Hiperparametrização par RAG.
+- [DONE] Utiliza tecnicas de Hiperparametrização para RAG.
 - [DONE] Utiliza LangSmith para observability.
 - [DOING] Utiliza LangSmith para validação de respostas automática.
 - [DOING] Utiliza fuzzy como Evaluators de resposta.

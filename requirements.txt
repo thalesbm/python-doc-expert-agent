@@ -12,6 +12,7 @@ langchainhub
 langchain
 langchain-community
 langchain-openai
+langchain_core
 huggingface_hub==0.22.2
 transformers==4.39.3
 jinja2==3.1.3
@@ -34,6 +35,5 @@ ragas
 datasets
 PyPDF2
 fuzzywuzzy[speedup]
-langchain 
-langchain-openai
+langsmith
 openevals
