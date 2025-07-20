@@ -12,6 +12,8 @@
 - [DONE] Utiliza LangSmith para observability.
 - [DOING] Utiliza LangSmith para validação de respostas automática.
 - [DOING] Utiliza fuzzy como Evaluators de resposta.
+- [BACKLOG] Utiliza MCP local.
+- [BACKLOG] Utiliza MCP para conectar com tools remotamente (https://dashboard.render.com/login).
 
 #### Parametros utilizados no RAG:
 - k (top_k): 5
