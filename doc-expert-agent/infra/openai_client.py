@@ -1,5 +1,5 @@
 from langchain_openai.chat_models import ChatOpenAI
-from config import get_config
+from config.config import get_config
 
 class OpenAIClientFactory:
     

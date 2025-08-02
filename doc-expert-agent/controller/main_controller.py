@@ -7,7 +7,7 @@ from pipeline.evaluate import Evaluate
 
 from service.select_service import SelectServices
 from model.input import Input
-from config import get_config
+from config.config import get_config
 from infra import get_logger
 from model.enum.database_path import DatabasePath
 

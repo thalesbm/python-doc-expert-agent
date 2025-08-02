@@ -5,9 +5,7 @@ Fornece configuração unificada e utilitários de logging.
 
 import logging
 import os
-from typing import Optional
 from pathlib import Path
-
 
 class LoggerConfig:
     """Configuração centralizada de logging."""

@@ -3,7 +3,7 @@ from langchain_community.vectorstores.chroma import Chroma
 
 from model.answer import Answer
 from infra import get_logger
-from config import get_config
+from config.config import get_config
 from typing import List
 
 import os
@@ -22,9 +22,9 @@ class Retrieval:
         vector_store = self.get_vector_store(api_key=api_key, database_path=database_path)
         docs = vector_store.max_marginal_relevance_search(
             query=question,
-            k=config.database.top_k,
-            fetch_k=config.database.fetch_k,
-            score_threshold=config.database.score_threshold,
+            k=config.rag.top_k,
+            fetch_k=config.rag.fetch_k,
+            score_threshold=config.rag.score_threshold,
         )
 
         if not docs:

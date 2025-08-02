@@ -3,7 +3,7 @@ from langchain_core.documents import Document
 
 from model.enum.connection_type import ConnectionType
 from infra import get_logger
-from config import get_config
+from config.config import get_config
 
 from typing import List
 

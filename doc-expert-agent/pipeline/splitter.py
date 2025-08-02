@@ -1,6 +1,6 @@
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
-from config import get_config
+from config.config import get_config
 
 from typing import List
 
@@ -18,8 +18,8 @@ class Splitter:
 
         config = get_config()
         text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=config.database.chunk_size,
-            chunk_overlap=config.database.chunk_overlap,
+            chunk_size=config.rag.chunk_size,
+            chunk_overlap=config.rag.chunk_overlap,
             separators=["\n\n", "\n", ". ", "? ", "! ", "; ", ": ", " "]
         )
 
