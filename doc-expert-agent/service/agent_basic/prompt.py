@@ -1,6 +1,7 @@
 from langchain.schema import HumanMessage, SystemMessage, AIMessage
 
 class Prompt:
+    """Classe responsável por gerar prompts para o agente básico."""
 
     def __init__(self, question: str, context: str):
         self.question = question

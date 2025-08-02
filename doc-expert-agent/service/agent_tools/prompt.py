@@ -1,6 +1,7 @@
 from langchain.prompts import ChatPromptTemplate
 
 class Prompt:
+    """Classe responsável por gerar prompts para o agente com ferramentas (tools)."""
 
     def get_entry_prompt():
         prompt = ChatPromptTemplate.from_messages([

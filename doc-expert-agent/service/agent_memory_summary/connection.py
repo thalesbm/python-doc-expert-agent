@@ -8,6 +8,7 @@ from logger import get_logger
 logger = get_logger(__name__)
 
 class ConnectionWithSummaryMemoryToOpenAI:
+    """Classe responsável por conectar com OpenAI usando memória resumida de conversa."""
 
     memory = None
 

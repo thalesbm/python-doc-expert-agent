@@ -7,6 +7,7 @@ from logger import get_logger
 logger = get_logger(__name__)
 
 class BasicConnectionToOpenAI:
+    """Classe responsável por conectar com OpenAI usando conexão básica."""
 
     def __init__(self, context: str, question: str, prompt_type: PromptType):
         self.context = context

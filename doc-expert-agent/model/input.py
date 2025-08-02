@@ -1,4 +1,5 @@
 class Input:
+    """Classe que representa a entrada de dados do usuário."""
     def __init__(
             self, 
             question: str, 

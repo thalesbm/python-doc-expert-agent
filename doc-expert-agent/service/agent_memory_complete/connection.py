@@ -10,6 +10,7 @@ logger = get_logger(__name__)
 memory = ConversationBufferMemory()
 
 class ConnectionWithCompleteMemoryToOpenAI:
+    """Classe responsável por conectar com OpenAI usando memória completa de conversa."""
 
     def __init__(self, context: str, question: str):
         self.context = context

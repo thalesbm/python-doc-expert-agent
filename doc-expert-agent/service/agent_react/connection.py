@@ -9,6 +9,7 @@ from logger import get_logger
 logger = get_logger(__name__)
 
 class ConnectionWithReactToOpenAI:
+    """Classe responsável por conectar com OpenAI usando ReAct (Reasoning and Acting)."""
 
     def __init__(self, context: str, question: str):
         self.context = context
@@ -36,6 +37,7 @@ class ConnectionWithReactToOpenAI:
         return output
     
 class LogHandler(BaseCallbackHandler):
+    """Handler para logging das ações do agente ReAct."""
     def on_agent_action(self, action, **kwargs):
         logger.info(f"[LOG] Action: {action.tool} | Input: {action.tool_input}")
 

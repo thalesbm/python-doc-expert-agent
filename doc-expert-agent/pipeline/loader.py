@@ -10,6 +10,7 @@ from typing import List
 logger = get_logger(__name__)
 
 class Loader:
+    """Classe responsável por carregar documentos PDF."""
 
     def load_document(connection_type: str) -> List[Document]:
         logger.info("Iniciando carregando do documento...")

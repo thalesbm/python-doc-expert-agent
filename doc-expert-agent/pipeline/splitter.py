@@ -9,6 +9,8 @@ from logger import get_logger
 logger = get_logger(__name__)
 
 class Splitter:
+    """Classe responsável por dividir documentos em chunks menores."""
+    
     def split_document(documents: List[Document]) -> List[Document]:
         logger.info("Iniciando split do documento...")
 
