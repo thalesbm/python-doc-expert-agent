@@ -3,6 +3,7 @@ from langchain_core.documents import Document
 
 from model.enum.connection_type import ConnectionType
 from infra import get_logger
+from config import get_config
 
 from typing import List
 
@@ -16,7 +17,16 @@ class Loader:
         config = get_config()
         documents = []
 
-        file_path = config.get_file_path(connection_type)
+        if ConnectionType(connection_type) in [
+            ConnectionType.CONNECTION_WITH_COMPLETE_MEMORY, 
+            ConnectionType.CONNECTION_WITH_SUMARY_MEMORY
+        ]:
+            file_path = config.path.hp_path
+            logger.info("Selecionado livro do HP")
+        else:
+            file_path = config.path.tcc_path
+            logger.info("Selecionado TCC")
+
         logger.info(f"Carregando arquivo: {file_path}")
         
         try:

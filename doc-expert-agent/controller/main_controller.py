@@ -9,12 +9,13 @@ from service.select_service import SelectServices
 from model.input import Input
 from config import get_config
 from infra import get_logger
+from model.enum.database_path import DatabasePath
 
 logger = get_logger(__name__)
 
 class MainController:
 
-    def __init__(self, connection_type: str, database_path: str):
+    def __init__(self, connection_type: str, database_path: DatabasePath):
         logger.info("Iniciando setup do RAG...")
 
         self.database_path = database_path
@@ -25,7 +26,7 @@ class MainController:
         document = Loader.load_document(connection_type=connection_type)
         chunks = Splitter.split_document(document)
         
-        Embedding.embedding_document(chunks, self.api_key, database_path)
+        Embedding.embedding_document(chunks, self.api_key, database_path.value)
 
         logger.info("Setup do RAG finalizado!")
 

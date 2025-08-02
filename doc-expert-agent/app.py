@@ -3,7 +3,8 @@ from view.main_view import MainView
 from model.input import Input
 from model.enum.connection_type import ConnectionType
 from config import get_config
-from infra import setup_logging, get_logger, auto_setup
+from infra import setup_logging, get_logger
+from model.enum.database_path import DatabasePath
 
 import streamlit as st
 

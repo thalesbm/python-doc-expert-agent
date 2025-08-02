@@ -3,7 +3,7 @@ from langchain_community.vectorstores.chroma import Chroma
 
 from model.answer import Answer
 from infra import get_logger
-
+from config import get_config
 from typing import List
 
 import os
