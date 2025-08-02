@@ -3,9 +3,9 @@ from tools.celulares_atualizados import get_tools
 from tools.celulares_atualizados import celulares_atualizados
 from service.agent_tools.prompt import Prompt
 
-import logging
+from infra import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class ConnectionWithToolsToOpenAI:
 

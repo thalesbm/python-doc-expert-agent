@@ -4,15 +4,15 @@ import streamlit as st
 
 from typing import List
 
-import logging
+from infra import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class MainView:
 
     @staticmethod
     def set_view(callback):
-        logging.info("Configurando View")
+        logger.info("Configurando View")
         
         st.subheader("Escolha as configurações abaixo e faça a sua pergunta")
         

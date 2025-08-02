@@ -3,9 +3,9 @@ from service.agent_memory_summary.prompt import Prompt
 from langchain.memory import ConversationBufferMemory
 from infra.openai_client import OpenAIClientFactory
 
-import logging
+from infra import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 memory = ConversationBufferMemory()
 

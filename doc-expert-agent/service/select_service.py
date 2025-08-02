@@ -10,8 +10,9 @@ from service.agent_memory_summary.connection import ConnectionWithSummaryMemoryT
 from service.agent_tools.connection import ConnectionWithToolsToOpenAI
 from service.agent_react.connection import ConnectionWithReactToOpenAI
 
-import logging
-logger = logging.getLogger(__name__)
+from infra import get_logger
+
+logger = get_logger(__name__)
 
 class SelectServices:
 

@@ -2,9 +2,9 @@ from service.agent_basic.prompt import Prompt
 from infra.openai_client import OpenAIClientFactory
 from model.enum.prompt_type import PromptType
 
-import logging
+from infra import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class BasicConnectionToOpenAI:
 

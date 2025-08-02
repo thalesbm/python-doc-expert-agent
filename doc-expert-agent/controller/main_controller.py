@@ -8,10 +8,9 @@ from pipeline.evaluate import Evaluate
 from service.select_service import SelectServices
 from model.input import Input
 from model.enum.database_path import DatabasePath
+from infra import get_logger
 
-import logging
-
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class MainController:
 

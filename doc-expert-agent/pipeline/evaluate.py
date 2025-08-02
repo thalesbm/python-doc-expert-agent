@@ -6,9 +6,9 @@ from model.answer import Answer
 
 from typing import List
 
-import logging
+from infra import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class Evaluate:
 

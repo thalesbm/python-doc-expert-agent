@@ -1,8 +1,8 @@
 import os
-import logging
+from infra import get_logger
 from dotenv import load_dotenv
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 load_dotenv()
 
