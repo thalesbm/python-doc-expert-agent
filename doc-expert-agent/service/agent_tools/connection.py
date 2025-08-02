@@ -3,7 +3,7 @@ from tools.celulares_atualizados import get_tools
 from tools.celulares_atualizados import celulares_atualizados
 from service.agent_tools.prompt import Prompt
 
-from infra import get_logger
+from logger import get_logger
 
 logger = get_logger(__name__)
 

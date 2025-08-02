@@ -2,7 +2,7 @@ from langchain_community.document_loaders.pdf import PyPDFLoader
 from langchain_core.documents import Document
 
 from model.enum.connection_type import ConnectionType
-from infra import get_logger
+from logger import get_logger
 from config.config import get_config
 
 from typing import List

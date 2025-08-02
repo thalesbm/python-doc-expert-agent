@@ -5,7 +5,7 @@ from langchain_community.vectorstores.chroma import Chroma
 from typing import List
 
 import shutil
-from infra import get_logger
+from logger import get_logger
 import os
 
 logger = get_logger(__name__)

@@ -7,6 +7,7 @@ import logging
 import os
 from pathlib import Path
 
+
 class LoggerConfig:
     """Configuração centralizada de logging."""
     
@@ -151,6 +152,7 @@ class LoggerConfig:
 
 # Instância global do configurador de logging
 logger_config = LoggerConfig()
+
 
 def setup_logging(
     level: str = None,

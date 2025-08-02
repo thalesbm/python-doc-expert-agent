@@ -2,7 +2,7 @@ from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores.chroma import Chroma
 
 from model.answer import Answer
-from infra import get_logger
+from logger import get_logger
 from config.config import get_config
 from typing import List
 
