@@ -8,5 +8,14 @@ from .embedding import Embedding
 from .retrieval import Retrieval
 from .openai import Key
 from .evaluate import Evaluate
+from .adaptive_chunker import AdaptiveChunker
 
-__all__ = ["Loader", "Splitter", "Embedding", "Retrieval", "Key", "Evaluate"] 
+__all__ = [
+    "Loader", 
+    "Splitter", 
+    "Embedding",
+    "Retrieval", 
+    "Key", 
+    "Evaluate",
+    "AdaptiveChunker"
+] 
