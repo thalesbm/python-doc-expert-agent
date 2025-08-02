@@ -1,4 +1,4 @@
-# 🤖 Doc Expert Agent
+# Doc Expert Agent
 
 Um agente inteligente construído em Python que utiliza **RAG (Retrieval-Augmented Generation)** para responder perguntas baseadas em documentos PDF.
 
@@ -13,8 +13,29 @@ Um agente inteligente construído em Python que utiliza **RAG (Retrieval-Augment
 - **ReAct**: `Raciocínio e ação para decisões inteligentes`
 - **Prompt Engineering**: `Técnicas avançadas de engenharia de prompts`
 - **Hiperparâmetros**: `Configuração otimizada para RAG`
+- **LangSmith**: `Integração com LangSmith para avaliar respostas`
 
 ## Como Usar
+
+#### Configuração do arquivo .env
+Crie o arquivo .env na raiz do projeto e copie código abaixo:
+
+```bash
+# Chave da OpenAI
+OPENAI_API_KEY=ADICIONE A CHAVE DA OPEN AI
+
+# Configurações de logging
+LOG_LEVEL=DEBUG
+LOG_FILE=dev.log
+LOG_CONSOLE=true
+LOG_FILE_OUTPUT=true 
+
+# Configuração do LangSmith
+LANGSMITH_TRACING=true
+LANGSMITH_ENDPOINT="https://api.smith.langchain.com"
+LANGSMITH_API_KEY="ADICIONA A CHAVE DO LANGSMITH"
+LANGSMITH_PROJECT="doc-expert-agent"
+```
 
 ### Execução
 ```bash

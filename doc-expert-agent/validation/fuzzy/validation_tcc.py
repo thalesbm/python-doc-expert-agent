@@ -3,34 +3,9 @@ from langchain_openai import OpenAIEmbeddings
 
 from langchain_community.vectorstores.chroma import Chroma
 
-import os
+import validation.questions
 
-avaliacao = [
-    {
-        "pergunta": "quem escreveu o projeto?",
-        "resposta_ideal": "Marlon Iwanaga Pacheco, Rafael Cinquini, Raphael Farias Utida, Thales Bertolini Marega"
-    },
-    {
-        "pergunta": "qual o titulo do trabalho?",
-        "resposta_ideal": "O título do trabalho é SISTEMAS MÓVEIS NO MUNDO ACADÊMICO E SUA IMPORTÂNCIA AO DESENVOLVIMENTO COMPUTACIONAL"
-    },
-    {
-        "pergunta": "em que ano foi escrito?",
-        "resposta_ideal": "O TCC foi escrito em 2014."
-    },
-    {
-        "pergunta": "qual o nome do aplicativo desenvolvido?",
-        "resposta_ideal": "Calculadora de Fisica"
-    },
-    {
-        "pergunta": "qual linguagem o aplicativo foi escrito?",
-        "resposta_ideal": "O aplicativo foi escrito utilizando principalmente as linguagens JavaScript e HTML."
-    },
-    {
-        "pergunta": "qual o objetivo do projeto?",
-        "resposta_ideal": "O objetivo é facilitar a adaptação e integração entre as principais plataformas móveis, Android e iOS, e analisar o impacto dessa aplicação no contexto educacional, proporcionando um método alternativo de aprendizado interativo e envolvente."
-    },
-]
+import os
 
 def get_vector_store(api_key: str, database_path: str):
     vector_store = Chroma(
@@ -52,7 +27,7 @@ def obter_resposta_rag(vector_store, pergunta):
 
 def avaliar_rag(vector_store):
     acertos = 0
-    for item in avaliacao:
+    for item in validation.questions.avaliacao:
         pergunta = item["pergunta"]
         ideal = item["resposta_ideal"]
         resposta = obter_resposta_rag(vector_store, pergunta)
@@ -65,7 +40,7 @@ def avaliar_rag(vector_store):
         if score >= 80:
             acertos += 1
 
-    total = len(avaliacao)
+    total = len(validation.questions.avaliacao)
     print(f"\nAcertos: {acertos}/{total} ({acertos/total*100:.1f}%)")
 
 if __name__ == "__main__":
