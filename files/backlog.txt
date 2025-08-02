@@ -4,15 +4,9 @@ Testes
 🔧 Implementar mocks para APIs externas
 🔧 Adicionar testes de performance
 
-Performance e Escalabilidade
-🔧 Adicionar async/await para operações I/O
-🔧 Implementar connection pooling
-🔧 Adicionar métricas de performance
-
 Código e Padrões
 🔧 Usar type hints consistentemente
 🔧 Implementar interfaces/abstract classes
-🔧 Adicionar validação de tipos com mypy
 
 Específico para RAG
 🔧 Adicionar filtros de relevância

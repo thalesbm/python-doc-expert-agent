@@ -1,3 +1,4 @@
+import asyncio
 from pipeline.loader import Loader
 from pipeline.chunk.splitter import Splitter
 from pipeline.embedding import Embedding
@@ -23,30 +24,33 @@ class MainController:
 
         self.api_key = Key.get_openai_key()
 
-        document = Loader.load_document(connection_type=connection_type)
+        # Usar versão síncrona para compatibilidade no construtor
+        document = Loader.load_document_sync(connection_type=connection_type)
         chunks = Splitter.split_document(document)
         
-        Embedding.embedding_document(chunks, self.api_key, database_path.value)
+        Embedding.embedding_document_sync(chunks, self.api_key, database_path.value)
 
         logger.info("Setup do RAG finalizado!")
 
-    def run(
+    async def run_async(
             self, 
             input: Input,
             chunks_callback, 
             result_callback
         ):        
+        """Executa o pipeline RAG de forma assíncrona."""
         logger.info(f"Pergunta recebida: {input.question}")
 
-        # retrieval
-        chunks = Retrieval().retrieve_similar_documents(
+        # retrieval assíncrono
+        retrieval = Retrieval()
+        chunks = await retrieval.retrieve_similar_documents(
             database_path=self.database_path.value,
             api_key=self.api_key,
             question=input.question
         )
         chunks_callback(chunks)
 
-        # open ai
+        # open ai (mantém síncrono por enquanto, pois SelectServices não é async)
         result = SelectServices(
             answers=chunks,
             api_key=self.api_key,
@@ -55,7 +59,7 @@ class MainController:
         )
         result_callback(result)
 
-        # evaluate
+        # evaluate (mantém síncrono por enquanto)
         evaluate = None
         if self.config.rag.enable_evaluation:
             evaluate = Evaluate(
@@ -65,3 +69,12 @@ class MainController:
             ).evaluate_answer()
 
         return evaluate
+
+    def run(
+            self, 
+            input: Input,
+            chunks_callback, 
+            result_callback
+        ):        
+        """Versão síncrona para compatibilidade."""
+        return asyncio.run(self.run_async(input, chunks_callback, result_callback))
