@@ -43,7 +43,7 @@ class MainView:
             callback(input)
 
     def get_connection_typpe():
-        return st.selectbox("🔌 Tipo de Conexão",
+        connetion_type_option = st.selectbox("Tipo de Conexão",
             [
                 "conexao-simples-llm", 
                 "conexao-llm-complete-memory",
@@ -51,12 +51,23 @@ class MainView:
                 "conexao-com-tool", 
                 "conexao-com-tool-react", 
                 
-            ]
+            ],
+            format_func=lambda x: {
+                "conexao-simples-llm": "Simples",
+                "conexao-llm-complete-memory": "Memória Completa",
+                "conexao-llm-summary-memory": "Memória com Resumo Automático",
+                "conexao-com-tool": "Com Tool",
+                "conexao-com-tool-react": "Com Tool e ReAct",
+            }.get(x, x)
         )
+
+        return connetion_type_option
+        
 
     @staticmethod
     def render_conexao_simples_llm():
-        prompt_type_option = st.selectbox("🎯 Tipo de Prompt",
+        prompt_type_option = st.selectbox(
+            "Tipo de Prompt:",
             [   
                 "ZERO_SHOT_PROMPT", 
                 "FEW_SHOT_PROMPT", 
@@ -65,19 +76,32 @@ class MainView:
                 "STYLE_SPECIFIC_PROMPTING", 
                 "LENGHT_LIMITATION_PROMPTING", 
                 "STEP_BY_STEP_INSTRUCTION_PROMPTING",
-            ]
+            ],
+            format_func=lambda x: {
+                "ZERO_SHOT_PROMPT": "Zero Shot",
+                "FEW_SHOT_PROMPT": "Few Shot",
+                "CHAIN_OF_THOUGHT": "Chain of Thought",
+                "DEFINITION_EXEMPLIFICATION": "Definição + Exemplo",
+                "STYLE_SPECIFIC_PROMPTING": "Estilo Específico",
+                "LENGHT_LIMITATION_PROMPTING": "Limitação de Tamanho",
+                "STEP_BY_STEP_INSTRUCTION_PROMPTING": "Passo a Passo"
+            }.get(x, x)
         )
         question = st.text_input(
-            "✏️ Faça sua pergunta sobre o TCC da minha faculdade", 
+            "Faça sua pergunta sobre o TCC da minha faculdade", 
             value = "quem escreveu o trabalho?"
         )
+
+        with st.sidebar:
+            st.title("Observações")
+            st.write("Escolha o tipo de prompt que deseja usar")
 
         return prompt_type_option, question
 
     @staticmethod
     def render_conexao_memory_llm():
         question = st.text_input(
-            "✏️ Faça sua pergunta sobre o primeiro capitulo do livro Harry Potter e a Pedra Filosofal", 
+            "Faça sua pergunta sobre o primeiro capitulo do livro Harry Potter e a Pedra Filosofal", 
             value = "Sempre que eu perguntar qual o meu nome, voce responde: Thales. Resume o livro em 15 palavras."
         )
 
@@ -91,7 +115,7 @@ class MainView:
     @staticmethod
     def render_conexao_tools_llm():
         question = st.text_input(
-            "✏️ Faça sua pergunta sobre o TCC da minha faculdade", 
+            "Faça sua pergunta sobre o TCC da minha faculdade", 
             value = "Quantos celulares o app pode rodar em 2025?"
         )
 
@@ -100,21 +124,6 @@ class MainView:
             st.write("Esse tipo de conexão chama uma tool caso o LLM identifique que o usuário fez alguma perguntou relacionada a quantidade de celulares disponivel no Brasil")
            
         return question
-
-    @staticmethod
-    def display_side_bar():
-        with st.sidebar:
-            st.title("📄 Documentos")
-            st.write("Caso não anexe um arquivo, usaremos o padrão: `doc-expert-agent/files/tcc.pdf`")
-
-            st.write("Na pasta `doc-expert-agent/files/` tem alguns arquivos em pdf para anexar")
-            return st.file_uploader(
-                key="file-pdf",
-                label="Anexar PDF",
-                type="pdf",
-                accept_multiple_files=False,
-            )
-        return None
 
     @staticmethod
     def update_view_with_chunks(answers: List[Answer]):
