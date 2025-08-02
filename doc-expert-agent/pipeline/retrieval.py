@@ -2,8 +2,8 @@ from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores.chroma import Chroma
 
 from model.answer import Answer
-from infra import get_logger
-
+from logger import get_logger
+from config.config import get_config
 from typing import List
 
 import os
@@ -18,12 +18,13 @@ class Retrieval:
     def retrieve_similar_documents(self, question: str, api_key: str, database_path: str) -> List[Answer]: 
         logger.info("Iniciando retrieval do documento...")
 
+        config = get_config()
         vector_store = self.get_vector_store(api_key=api_key, database_path=database_path)
         docs = vector_store.max_marginal_relevance_search(
             query=question,
-            k=5,
-            fetch_k=20,
-            score_threshold=0.85,
+            k=config.rag.top_k,
+            fetch_k=config.rag.fetch_k,
+            score_threshold=config.rag.score_threshold,
         )
 
         if not docs:

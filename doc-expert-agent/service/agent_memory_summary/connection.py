@@ -3,7 +3,7 @@ from service.agent_memory_complete.prompt import Prompt
 from langchain.memory import ConversationSummaryMemory
 from infra.openai_client import OpenAIClientFactory
 
-from infra import get_logger
+from logger import get_logger
 
 logger = get_logger(__name__)
 

@@ -4,7 +4,7 @@ from langchain.callbacks.base import BaseCallbackHandler
 from tools.celulares_atualizados import get_simple_tools
 from service.agent_react.prompt import Prompt
 
-from infra import get_logger
+from logger import get_logger
 
 logger = get_logger(__name__)
 

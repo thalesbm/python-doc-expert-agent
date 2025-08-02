@@ -1,5 +1,5 @@
 import os
-from infra import get_logger
+from logger import get_logger
 from dotenv import load_dotenv
 
 logger = get_logger(__name__)

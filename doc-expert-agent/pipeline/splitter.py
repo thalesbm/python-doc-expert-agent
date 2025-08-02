@@ -1,9 +1,10 @@
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
+from config.config import get_config
 
 from typing import List
 
-from infra import get_logger
+from logger import get_logger
 
 logger = get_logger(__name__)
 
@@ -15,9 +16,10 @@ class Splitter:
             logger.warning("Nenhum documento recebido para split.")
             return []
 
+        config = get_config()
         text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=1024,
-            chunk_overlap=150,
+            chunk_size=config.rag.chunk_size,
+            chunk_overlap=config.rag.chunk_overlap,
             separators=["\n\n", "\n", ". ", "? ", "! ", "; ", ": ", " "]
         )
 

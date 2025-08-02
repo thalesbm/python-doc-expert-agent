@@ -7,8 +7,9 @@ from pipeline.evaluate import Evaluate
 
 from service.select_service import SelectServices
 from model.input import Input
+from config.config import get_config
+from logger import get_logger
 from model.enum.database_path import DatabasePath
-from infra import get_logger
 
 logger = get_logger(__name__)
 
@@ -18,6 +19,7 @@ class MainController:
         logger.info("Iniciando setup do RAG...")
 
         self.database_path = database_path
+        self.config = get_config()
 
         self.api_key = Key.get_openai_key()
 
@@ -54,10 +56,12 @@ class MainController:
         result_callback(result)
 
         # evaluate
-        evaluate = Evaluate(
-            answer=result,
-            chunks=chunks, 
-            question=input.question
-        ).evaluate_answer()
+        evaluate = None
+        if self.config.rag.enable_evaluation:
+            evaluate = Evaluate(
+                answer=result,
+                chunks=chunks, 
+                question=input.question
+            ).evaluate_answer()
 
         return evaluate

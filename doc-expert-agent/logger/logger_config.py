@@ -5,7 +5,6 @@ Fornece configuração unificada e utilitários de logging.
 
 import logging
 import os
-from typing import Optional
 from pathlib import Path
 
 
@@ -154,6 +153,7 @@ class LoggerConfig:
 # Instância global do configurador de logging
 logger_config = LoggerConfig()
 
+
 def setup_logging(
     level: str = None,
     format_string: str = None,
@@ -212,19 +212,3 @@ def add_file_handler(log_file: str, level: str = None):
         level: Nível de logging
     """
     logger_config.add_file_handler(log_file, level)
-
-
-# Configuração automática baseada em variáveis de ambiente
-def auto_setup():
-    """Configura logging automaticamente baseado em variáveis de ambiente."""
-    level = os.getenv("LOG_LEVEL", "INFO")
-    log_file = os.getenv("LOG_FILE", "app.log")
-    console_output = os.getenv("LOG_CONSOLE", "true").lower() == "true"
-    file_output = os.getenv("LOG_FILE_OUTPUT", "true").lower() == "true"
-    
-    setup_logging(
-        level=level,
-        log_file=log_file if file_output else None,
-        console_output=console_output,
-        file_output=file_output
-    ) 

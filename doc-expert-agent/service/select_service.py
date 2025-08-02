@@ -10,7 +10,7 @@ from service.agent_memory_summary.connection import ConnectionWithSummaryMemoryT
 from service.agent_tools.connection import ConnectionWithToolsToOpenAI
 from service.agent_react.connection import ConnectionWithReactToOpenAI
 
-from infra import get_logger
+from logger import get_logger
 
 logger = get_logger(__name__)
 
