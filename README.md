@@ -4,15 +4,15 @@ Um agente inteligente construído em Python que utiliza **RAG (Retrieval-Augment
 
 ## Funcionalidades
 
-- **RAG (Retrieval-Augmented Generation)**: Sistema completo de busca e geração baseada em documentos
-- **Chunking Adaptativo**: Divisão inteligente de documentos baseada no conteúdo
-- **Tools**: Integração com ferramentas externas via function calling
-- **Interface**: Interface web com Streamlit
-- **Avaliação**: Métricas de qualidade com Ragas
-- **Memória**: Suporte a memória completa e resumida
-- **ReAct**: Raciocínio e ação para decisões inteligentes
-- **Prompt Engineering**: Técnicas avançadas de engenharia de prompts
-- **Hiperparâmetros**: Configuração otimizada para RAG
+- **RAG (Retrieval-Augmented Generation)**: `Sistema completo de busca e geração baseada em documentos`
+- **Chunking Adaptativo**: `Divisão inteligente de documentos baseada no conteúdo`
+- **Tools**: `Integração com ferramentas externas via function calling`
+- **Interface**: `Interface web com Streamlit`
+- **Avaliação**:` Métricas de qualidade com Ragas`
+- **Memória**: `Suporte a memória completa e resumida`
+- **ReAct**: `Raciocínio e ação para decisões inteligentes`
+- **Prompt Engineering**: `Técnicas avançadas de engenharia de prompts`
+- **Hiperparâmetros**: `Configuração otimizada para RAG`
 
 ## Como Usar
 
@@ -46,10 +46,10 @@ python3 ./doc-expert-agent/validation/validation_tcc.py
 - **Top K**: `5`
 - **Fetch K**: `20`
 - **Score threshold**: `0.85`
-- **Avaliação**: Habilitada
+- **Avaliação**: `Habilitada`
 
 ## Métricas de Avaliação
 
-- **Context Recall**: Relevância do contexto encontrado
-- **Faithfulness**: Fidelidade da resposta ao contexto
-- **Answer Relevance**: Relevância da resposta para a pergunta
+- **Context Recall**: `Relevância do contexto encontrado`
+- **Faithfulness**: `Fidelidade da resposta ao contexto`
+- **Answer Relevance**: `Relevância da resposta para a pergunta`

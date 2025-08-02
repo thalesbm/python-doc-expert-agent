@@ -1,29 +1,12 @@
-Tratamento de Erros e Logging
-🔧 Criar exceções customizadas para diferentes tipos de erro
-🔧 Implementar retry logic para chamadas de API
-🔧 Adicionar validação de entrada com Pydantic
-
 Testes
 🔧 Adicionar testes unitários (pytest)
 🔧 Adicionar testes de integração
 🔧 Implementar mocks para APIs externas
 🔧 Adicionar testes de performance
 
-Segurança
-🔧 Validar inputs do usuário
-🔧 Implementar rate limiting
-🔧 Sanitizar dados antes de enviar para APIs
-🔧 Usar secrets management para chaves de API
-
-Performance e Escalabilidade
-🔧 Adicionar async/await para operações I/O
-🔧 Implementar connection pooling
-🔧 Adicionar métricas de performance
-
 Código e Padrões
 🔧 Usar type hints consistentemente
 🔧 Implementar interfaces/abstract classes
-🔧 Adicionar validação de tipos com mypy
 
 Específico para RAG
 🔧 Adicionar filtros de relevância
