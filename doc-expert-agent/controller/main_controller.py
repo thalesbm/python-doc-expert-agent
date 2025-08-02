@@ -1,5 +1,5 @@
 from pipeline.loader import Loader
-from pipeline.splitter import Splitter
+from pipeline.chunk.splitter import Splitter
 from pipeline.embedding import Embedding
 from pipeline.retrieval import Retrieval
 from pipeline.openai import Key

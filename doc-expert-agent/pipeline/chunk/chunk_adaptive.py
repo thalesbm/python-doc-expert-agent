@@ -9,6 +9,7 @@ from typing import List, Dict, Any
 import re
 from logger import get_logger
 from config.config import get_config
+from .chunk_utils import remove_duplicate_chunks
 
 logger = get_logger(__name__)
 
@@ -39,7 +40,7 @@ class AdaptiveChunker:
             all_chunks.extend(chunks)
         
         # Remove duplicados globais
-        final_chunks = self.remove_duplicates(all_chunks)
+        final_chunks = remove_duplicate_chunks(all_chunks)
         
         self.logger.info(f"Total de chunks únicos: {len(final_chunks)}")
         
@@ -63,19 +64,21 @@ class AdaptiveChunker:
         
         self.logger.info(f"Métricas: {metrics}")
         self.logger.info(f"Estratégia: {strategy}")
-        
+
+        config = get_config()
+
         # Cria o splitter com a estratégia determinada
         splitter = RecursiveCharacterTextSplitter(
             chunk_size=strategy['chunk_size'],
             chunk_overlap=strategy['overlap'],
-            separators=["\n\n", "\n", ". ", "? ", "! ", "; ", ": ", " "]
+            separators=config.rag.separator
         )
         
         # Faz o chunking
         chunks = splitter.split_documents([document])
         
         # Remove chunks duplicados
-        unique_chunks = self.remove_duplicates(chunks)
+        unique_chunks = remove_duplicate_chunks(chunks)
         
         self.logger.info(f"Chunks gerados: {len(chunks)}, Únicos: {len(unique_chunks)}")
         
@@ -156,29 +159,6 @@ class AdaptiveChunker:
             'chunk_size': max(200, chunk_size),  # Mínimo de 200 caracteres
             'overlap': max(50, overlap)          # Mínimo de 50 caracteres
         }
-    
-    def remove_duplicates(self, chunks: List[Document]) -> List[Document]:
-        """
-        Remove chunks duplicados baseado no conteúdo.
-        
-        Args:
-            chunks: Lista de chunks
-            
-        Returns:
-            Lista de chunks únicos
-        """
-        unique_chunks = []
-        seen_contents = set()
-        
-        for chunk in chunks:
-            # Normaliza o conteúdo para comparação
-            normalized_content = re.sub(r'\s+', ' ', chunk.page_content.strip())
-            
-            if normalized_content not in seen_contents:
-                unique_chunks.append(chunk)
-                seen_contents.add(normalized_content)
-        
-        return unique_chunks
     
     def get_chunk_stats(self, chunks: List[Document]) -> Dict[str, Any]:
         """
