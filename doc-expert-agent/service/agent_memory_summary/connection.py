@@ -1,19 +1,22 @@
+from typing import List, Optional
 from service.agent_memory_complete.prompt import Prompt
-
+from service.connect_interface import ConnectInterface
 from langchain.memory import ConversationSummaryMemory
 from infra.openai_client import OpenAIClientFactory
+from langchain.schema import BaseMessage
 
-import logging
+from logger import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
-class ConnectionWithSummaryMemoryToOpenAI:
+class ConnectionWithSummaryMemoryToOpenAI(ConnectInterface):
+    """Classe responsável por conectar com OpenAI usando memória resumida de conversa."""
 
-    memory = None
+    memory: Optional[ConversationSummaryMemory] = None
 
-    def __init__(self, context: str, question: str):
-        self.context = context
-        self.question = question
+    def __init__(self, context: str, question: str) -> None:
+        self.context: str = context
+        self.question: str = question
 
     def connect(self, api_key: str) -> str:
         logger.info("Iniciando conexão com a open AI do documento...")
@@ -23,9 +26,9 @@ class ConnectionWithSummaryMemoryToOpenAI:
         if ConnectionWithSummaryMemoryToOpenAI.memory is None:
             ConnectionWithSummaryMemoryToOpenAI.memory = ConversationSummaryMemory(llm=chat)
 
-        memory = ConnectionWithSummaryMemoryToOpenAI.memory
+        memory: ConversationSummaryMemory = ConnectionWithSummaryMemoryToOpenAI.memory
 
-        prompt = Prompt(context=self.context, question=self.question, memory=memory.buffer).default_prompt()
+        prompt: List[BaseMessage] = Prompt(context=self.context, question=self.question, memory=memory.buffer).default_prompt()
 
         logger.info(prompt)
 

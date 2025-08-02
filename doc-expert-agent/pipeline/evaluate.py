@@ -6,11 +6,12 @@ from model.answer import Answer
 
 from typing import List
 
-import logging
+from logger import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class Evaluate:
+    """Classe responsável por avaliar a qualidade das respostas usando métricas RAGAS."""
 
     def __init__(self, question: str, answer: str, chunks: List[Answer]):
         self.question = question

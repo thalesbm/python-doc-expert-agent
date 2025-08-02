@@ -1,22 +1,25 @@
+from typing import List
 from service.agent_basic.prompt import Prompt
 from infra.openai_client import OpenAIClientFactory
 from model.enum.prompt_type import PromptType
+from langchain.schema import BaseMessage
+from service.connect_interface import ConnectInterface
+from logger import get_logger
 
-import logging
+logger = get_logger(__name__)
 
-logger = logging.getLogger(__name__)
+class BasicConnectionToOpenAI(ConnectInterface):
+    """Classe responsável por conectar com OpenAI usando conexão básica."""
 
-class BasicConnectionToOpenAI:
-
-    def __init__(self, context: str, question: str, prompt_type: PromptType):
-        self.context = context
-        self.question = question
-        self.prompt_type = prompt_type
+    def __init__(self, context: str, question: str, prompt_type: PromptType) -> None:
+        self.context: str = context
+        self.question: str = question
+        self.prompt_type: PromptType = prompt_type
 
     def connect(self, api_key: str) -> str:
         logger.info("Iniciando conexão com a open AI do documento...")
 
-        prompt = self.get_current_prompt()
+        prompt: List[BaseMessage] = self.get_current_prompt()
 
         chat = OpenAIClientFactory(api_key=api_key).create_basic_client()
 
@@ -30,10 +33,10 @@ class BasicConnectionToOpenAI:
 
         return response.content
     
-    def get_current_prompt(self): 
-        prompt = Prompt(question=self.question, context=self.context)
+    def get_current_prompt(self) -> List[BaseMessage]: 
+        prompt: Prompt = Prompt(question=self.question, context=self.context)
 
-        prompt_text = ""
+        prompt_text: List[BaseMessage] = []
 
         if self.prompt_type == PromptType.ZERO_SHOT_PROMPT:
             prompt_text = prompt.get_zero_show_prompt()

@@ -1,17 +1,20 @@
+from typing import Any, Dict
 from infra.openai_client import OpenAIClientFactory
 from tools.celulares_atualizados import get_tools
 from tools.celulares_atualizados import celulares_atualizados
 from service.agent_tools.prompt import Prompt
+from langchain.schema import AIMessage
+from service.connect_interface import ConnectInterface
+from logger import get_logger
 
-import logging
+logger = get_logger(__name__)
 
-logger = logging.getLogger(__name__)
+class ConnectionWithToolsToOpenAI(ConnectInterface):
+    """Classe responsável por conectar com OpenAI usando ferramentas (tools)."""
 
-class ConnectionWithToolsToOpenAI:
-
-    def __init__(self, context: str, question: str):
-        self.context = context
-        self.question = question
+    def __init__(self, context: str, question: str) -> None:
+        self.context: str = context
+        self.question: str = question
 
     def connect(self, api_key: str) -> str:
         logger.info("Iniciando conexão com a open AI...")
@@ -21,13 +24,13 @@ class ConnectionWithToolsToOpenAI:
         prompt = Prompt.get_entry_prompt()
         chain = prompt | chat
 
-        result = chain.invoke({'query': self.question, "context": self.context})
+        result: AIMessage = chain.invoke({'query': self.question, "context": self.context})
 
-        value = self.configure_function_call(result)
+        value: str = self.configure_function_call(result)
 
         follow_up_chain = Prompt.get_exit_prompt() | chat
 
-        follow_up_result = follow_up_chain.invoke({
+        follow_up_result: AIMessage = follow_up_chain.invoke({
             "resposta": result.content,
             "valor": value
         })
@@ -40,13 +43,13 @@ class ConnectionWithToolsToOpenAI:
 
         return follow_up_result.content
 
-    def configure_function_call(self, result) -> str:
+    def configure_function_call(self, result: AIMessage) -> str:
         if result.additional_kwargs.get("function_call"):
-            func_name = result.additional_kwargs["function_call"]["name"]
+            func_name: str = result.additional_kwargs["function_call"]["name"]
             logger.info(f"Function Call: {func_name}")
 
             if func_name in ["celulares_atualizados()", "celulares_atualizados"]:
-                valor = celulares_atualizados.invoke({})
+                valor: str = celulares_atualizados.invoke({})
                 logger.info(f"Function Result: {valor}")
                 return valor
 

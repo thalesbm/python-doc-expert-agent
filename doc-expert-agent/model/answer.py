@@ -1,4 +1,7 @@
+from dataclasses import dataclass
+
+@dataclass
 class Answer:
-    def __init__(self, content: str, metadata: str):
-        self.content = content
-        self.metadata = metadata
+    """Classe que representa a resposta gerada pelo sistema."""
+    content: str
+    metadata: str

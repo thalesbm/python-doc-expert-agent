@@ -2,16 +2,33 @@ from controller.main_controller import MainController
 from view.main_view import MainView
 from model.input import Input
 from model.enum.connection_type import ConnectionType
+from config.config import get_config
+from logger import setup_logging, get_logger
 from model.enum.database_path import DatabasePath
 
 import streamlit as st
-import logging
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 def init():
-    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s: %(message)s")
-
+    # Carrega configuração
+    config = get_config()
+    
+    # Configura logging centralizado
+    setup_logging(
+        level=config.logging.level,
+        format_string=config.logging.format,
+        log_file=config.logging.file_path
+    )
+    
+    # Configura Streamlit
+    st.set_page_config(
+        page_title=config.streamlit.page_title,
+        page_icon=config.streamlit.page_icon,
+        layout=config.streamlit.layout,
+        initial_sidebar_state=config.streamlit.initial_sidebar_state
+    )
+    
     logger.info("Bem vindo ao melhor mini agente do mundo")
 
     MainView.set_view(get_form)

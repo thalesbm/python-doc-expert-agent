@@ -1,9 +1,12 @@
+from typing import Any
 from langchain.prompts import ChatPromptTemplate
 
 class Prompt:
+    """Classe responsável por gerar prompts para o agente ReAct."""
 
-    def get_react_prompt():
-        prompt = ChatPromptTemplate.from_messages([
+    @staticmethod
+    def get_react_prompt() -> ChatPromptTemplate:
+        prompt: ChatPromptTemplate = ChatPromptTemplate.from_messages([
             (
                 "system",
                 "Você é um assistente que universitario que retorna as informações de forma clara e objetiva"
