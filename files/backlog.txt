@@ -1,36 +1,38 @@
-2. Tratamento de Erros e Logging
+Tratamento de Erros e Logging
 🔧 Criar exceções customizadas para diferentes tipos de erro
 🔧 Implementar retry logic para chamadas de API
 🔧 Adicionar validação de entrada com Pydantic
 
-4. Testes
+Testes
 🔧 Adicionar testes unitários (pytest)
 🔧 Adicionar testes de integração
 🔧 Implementar mocks para APIs externas
 🔧 Adicionar testes de performance
 
-5. Segurança
+Segurança
 🔧 Validar inputs do usuário
 🔧 Implementar rate limiting
 🔧 Sanitizar dados antes de enviar para APIs
 🔧 Usar secrets management para chaves de API
 
-6. Performance e Escalabilidade
+Performance e Escalabilidade
 🔧 Adicionar async/await para operações I/O
 🔧 Implementar connection pooling
 🔧 Adicionar métricas de performance
 
-7. Código e Padrões
+Código e Padrões
 🔧 Usar type hints consistentemente
 🔧 Implementar interfaces/abstract classes
 🔧 Adicionar validação de tipos com mypy
 
-8. Específico para RAG
+Específico para RAG
 🔧 Adicionar filtros de relevância
 🔧 Implementar cache de embeddings
+🔧 Hybrid search (BM25 + Embeddings)
+🔧 Diversidade de chunks (MMR, filtragem, reranking)
+🔧 RAG com sumarizacao ou compressao dos chunks
+🔧 Query transformation (reformular queries para melhorar o recall)
 
-9. Interface do Usuário
-🔧 Adicionar feedback visual durante processamento
-🔧 Implementar histórico de conversas
-🔧 Adicionar exportação de resultados
-🔧 Melhorar responsividade
+Outras features
+🔧 Chain of Responsibility (cada etapa valida ou transforma a resposta)
+🔧 Fine-tuning e Adapters
