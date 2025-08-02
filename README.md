@@ -1,4 +1,4 @@
-#### Este projeto é um agente construído em Python com LangChain, que:
+## Este projeto é um agente construído em Python com LangChain, que:
 
 - [DONE] Utiliza RAG (Retrieval-Augmented Generation) para responder perguntas baseadas em documentos PDF.
 - [DONE] Utiliza tools externas via function calling para complementar respostas com dados dinâmicos.
@@ -10,41 +10,23 @@
 - [DONE] Utiliza ConversationBufferMemory (histórico completo).
 - [DONE] Utiliza tecnicas de Hiperparametrização par RAG
 
-#### Parametros utilizados no RAG; 
-- k (top_k): 5
-- Chunk size: 1024
-- Chunk overlap: 150
-- Score Threshold: 0.8
-- Retrieval Strategy: 20
-- Temperatura: 0
-
 ## Configurações Disponíveis
 
-### DatabaseConfig
-- `chunk_size`: 512 bytes (otimizado para desenvolvimento)
-- `chunk_overlap`: 100 bytes
-- `top_k`: 3 documentos
-- `fetch_k`: 10 documentos
-- `score_threshold`: 0.8
-
-### OpenAIConfig
+#### OpenAIConfig
 - `model`: gpt-4o-mini
-- `temperature`: 0.1 (pequena variação)
+- `temperature`: 0
 - `max_tokens`: 1000
 
-### RagConfig
+#### RagConfig
 - `enable_evaluation`: true
 - `evaluation_metrics`: ["answer_relevancy", "faithfulness"]
+- `chunk_size`: 1024 bytes
+- `chunk_overlap`: 150 bytes
+- `top_k`: 5
+- `fetch_k`: 20
+- `score_threshold`: 0.85
 
-### LoggingConfig
-- `level`: DEBUG
-- `file_path`: logs/dev.log
-
-### StreamlitConfig
-- `page_title`: "Doc Expert Agent - DEV"
-- `page_icon`: 🔧
-
-#### Comandos:
+## Comandos:
 ```bash
 pip3 install -r requirements.txt
 
@@ -57,7 +39,7 @@ python3 -m streamlit run doc-expert-agent/app.py
 python3 ./doc-expert-agent/app.py
 ```
 
-#### Validações
+## Validações
 ```bash
 python3 ./doc-expert-agent/validation/validation_tcc.py
 ```

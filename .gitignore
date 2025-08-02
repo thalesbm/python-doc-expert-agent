@@ -189,9 +189,10 @@ cython_debug/
 # Mac
 .DS_Store
 
-# db
+# files
 files/tcc/chroma_db/
 files/hp/chroma_db/
+files/cache/embeddings/
 
 # Cursor
 #  Cursor is an AI-powered code editor. `.cursorignore` specifies files/directories to

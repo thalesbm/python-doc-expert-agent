@@ -1,6 +1,6 @@
 from pipeline.loader import Loader
 from pipeline.splitter import Splitter
-from pipeline.embedding import Embedding
+from pipeline.embedding.embedding import Embedding
 from pipeline.retrieval import Retrieval
 from pipeline.openai import Key
 from pipeline.evaluate import Evaluate
@@ -24,9 +24,7 @@ class MainController:
         self.api_key = Key.get_openai_key()
 
         document = Loader.load_document(connection_type=connection_type)
-        chunks = Splitter.split_document(document)
-        
-        Embedding.embedding_document(chunks, self.api_key, database_path.value)
+        self.chunks = Splitter.split_document(document)
 
         logger.info("Setup do RAG finalizado!")
 
@@ -37,6 +35,8 @@ class MainController:
             result_callback
         ):        
         logger.info(f"Pergunta recebida: {input.question}")
+
+        Embedding().embedding_document(self.chunks, self.api_key, self.database_path.value)    
 
         # retrieval
         chunks = Retrieval().retrieve_similar_documents(
