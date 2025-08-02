@@ -1,10 +1,12 @@
+from typing import Any
 from langchain.prompts import ChatPromptTemplate
 
 class Prompt:
     """Classe responsável por gerar prompts para o agente com ferramentas (tools)."""
 
-    def get_entry_prompt():
-        prompt = ChatPromptTemplate.from_messages([
+    @staticmethod
+    def get_entry_prompt() -> ChatPromptTemplate:
+        prompt: ChatPromptTemplate = ChatPromptTemplate.from_messages([
             (
                 "system",
                 "Você é um assistente universitário. Responda com bastante detalhes"
@@ -45,8 +47,9 @@ class Prompt:
         ])
         return prompt
 
-    def get_exit_prompt() -> str:
-        prompt = ChatPromptTemplate.from_messages([
+    @staticmethod
+    def get_exit_prompt() -> ChatPromptTemplate:
+        prompt: ChatPromptTemplate = ChatPromptTemplate.from_messages([
             (
                 "system",
                 "Você é um assistente que reescreve a resposta final de forma NATURAL, "

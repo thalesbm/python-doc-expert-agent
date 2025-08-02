@@ -5,7 +5,6 @@ Testes
 🔧 Adicionar testes de performance
 
 Código e Padrões
-🔧 Usar type hints consistentemente
 🔧 Implementar interfaces/abstract classes
 
 Específico para RAG
@@ -13,7 +12,8 @@ Específico para RAG
 🔧 Implementar cache de embeddings
 🔧 Hybrid search (BM25 + Embeddings)
 🔧 Diversidade de chunks (MMR, filtragem, reranking)
-🔧 RAG com sumarizacao ou compressao dos chunks
+🔧 RAG com sumarizacao 
+🔧 RAG com compressao dos chunks
 🔧 Query transformation (reformular queries para melhorar o recall)
 
 Outras features
