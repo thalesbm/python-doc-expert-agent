@@ -4,12 +4,12 @@ from langchain.agents import AgentExecutor, create_openai_tools_agent
 from langchain.callbacks.base import BaseCallbackHandler
 from tools.celulares_atualizados import get_simple_tools
 from service.agent_react.prompt import Prompt
-
+from service.connect_interface import ConnectInterface
 from logger import get_logger
 
 logger = get_logger(__name__)
 
-class ConnectionWithReactToOpenAI:
+class ConnectionWithReactToOpenAI(ConnectInterface):
     """Classe responsável por conectar com OpenAI usando ReAct (Reasoning and Acting)."""
 
     def __init__(self, context: str, question: str) -> None:

@@ -1,11 +1,5 @@
 Testes
 🔧 Adicionar testes unitários (pytest)
-🔧 Adicionar testes de integração
-🔧 Implementar mocks para APIs externas
-🔧 Adicionar testes de performance
-
-Código e Padrões
-🔧 Implementar interfaces/abstract classes
 
 Específico para RAG
 🔧 Adicionar filtros de relevância
@@ -19,3 +13,6 @@ Específico para RAG
 Outras features
 🔧 Chain of Responsibility (cada etapa valida ou transforma a resposta)
 🔧 Fine-tuning e Adapters
+
+Evals
+🔧 Adicionar LangSmith

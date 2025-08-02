@@ -3,12 +3,12 @@ from service.agent_basic.prompt import Prompt
 from infra.openai_client import OpenAIClientFactory
 from model.enum.prompt_type import PromptType
 from langchain.schema import BaseMessage
-
+from service.connect_interface import ConnectInterface
 from logger import get_logger
 
 logger = get_logger(__name__)
 
-class BasicConnectionToOpenAI:
+class BasicConnectionToOpenAI(ConnectInterface):
     """Classe responsável por conectar com OpenAI usando conexão básica."""
 
     def __init__(self, context: str, question: str, prompt_type: PromptType) -> None:
