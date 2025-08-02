@@ -15,6 +15,7 @@ from logger import get_logger
 logger = get_logger(__name__)
 
 class SelectServices:
+    """Classe responsável por selecionar e executar o serviço apropriado baseado no tipo de conexão."""
 
     def __init__(self, answers: List[Answer], api_key: str):
         self.answers = answers

@@ -9,6 +9,7 @@ from logger import get_logger
 logger = get_logger(__name__)
 
 class MainView:
+    """Classe responsável pela interface de usuário usando Streamlit."""
 
     @staticmethod
     def set_view(callback):

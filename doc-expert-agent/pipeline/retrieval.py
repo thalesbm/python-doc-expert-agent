@@ -11,6 +11,7 @@ import os
 logger = get_logger(__name__)
 
 class Retrieval:
+    """Classe responsável por recuperar documentos similares do banco vetorial."""
 
     def __init__(self):
         pass

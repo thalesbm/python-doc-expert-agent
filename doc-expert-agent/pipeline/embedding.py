@@ -11,6 +11,7 @@ import os
 logger = get_logger(__name__)
 
 class Embedding:
+    """Classe responsável por realizar o embedding."""
 
     def embedding_document(chunks: List[Document], api_key: str, path: str) -> Chroma:
         logger.info("Inicializando embedding do documento...")
