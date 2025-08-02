@@ -4,12 +4,12 @@ from tools.celulares_atualizados import get_tools
 from tools.celulares_atualizados import celulares_atualizados
 from service.agent_tools.prompt import Prompt
 from langchain.schema import AIMessage
-
+from service.connect_interface import ConnectInterface
 from logger import get_logger
 
 logger = get_logger(__name__)
 
-class ConnectionWithToolsToOpenAI:
+class ConnectionWithToolsToOpenAI(ConnectInterface):
     """Classe responsável por conectar com OpenAI usando ferramentas (tools)."""
 
     def __init__(self, context: str, question: str) -> None:

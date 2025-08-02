@@ -1,6 +1,6 @@
 from typing import List, Optional
 from service.agent_memory_complete.prompt import Prompt
-
+from service.connect_interface import ConnectInterface
 from langchain.memory import ConversationSummaryMemory
 from infra.openai_client import OpenAIClientFactory
 from langchain.schema import BaseMessage
@@ -9,7 +9,7 @@ from logger import get_logger
 
 logger = get_logger(__name__)
 
-class ConnectionWithSummaryMemoryToOpenAI:
+class ConnectionWithSummaryMemoryToOpenAI(ConnectInterface):
     """Classe responsável por conectar com OpenAI usando memória resumida de conversa."""
 
     memory: Optional[ConversationSummaryMemory] = None
