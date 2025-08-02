@@ -5,10 +5,10 @@ from langchain_community.vectorstores.chroma import Chroma
 from typing import List
 
 import shutil
-import logging
+from infra import get_logger
 import os
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class Embedding:
 

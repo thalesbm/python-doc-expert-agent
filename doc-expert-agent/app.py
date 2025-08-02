@@ -3,15 +3,16 @@ from view.main_view import MainView
 from model.input import Input
 from model.enum.connection_type import ConnectionType
 from model.enum.database_path import DatabasePath
+from infra import setup_logging, get_logger, auto_setup
 
 import streamlit as st
-import logging
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 def init():
-    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s: %(message)s")
-
+    # Configura logging centralizado
+    auto_setup()
+    
     logger.info("Bem vindo ao melhor mini agente do mundo")
 
     MainView.set_view(get_form)

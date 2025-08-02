@@ -2,12 +2,11 @@ from langchain_community.document_loaders.pdf import PyPDFLoader
 from langchain_core.documents import Document
 
 from model.enum.connection_type import ConnectionType
+from infra import get_logger
 
 from typing import List
 
-import logging
-
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class Loader:
 

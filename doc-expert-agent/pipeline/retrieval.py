@@ -2,13 +2,13 @@ from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores.chroma import Chroma
 
 from model.answer import Answer
+from infra import get_logger
 
 from typing import List
 
-import logging
 import os
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class Retrieval:
 
@@ -34,14 +34,12 @@ class Retrieval:
         logger.info(f"Chunks size: {len(docs)}")
 
         for item in docs:
-            
             if isinstance(item, tuple):
                 doc = item[0]
             else:
                 doc = item
 
             answers.append(Answer(content=doc.page_content, metadata=doc.metadata))
-
             logger.info(f"Retrieved chunk: {doc.page_content[:100]}... | Metadata: {doc.metadata}")
 
         logger.info("Finalizando retrieval do documento")
@@ -49,7 +47,6 @@ class Retrieval:
         return answers
     
     def get_vector_store(self, api_key: str, database_path: str):
-
         if not os.path.exists(database_path):
             logger.error(f"O banco vetorial {database_path} não existe. Rode o indexador primeiro!")
 

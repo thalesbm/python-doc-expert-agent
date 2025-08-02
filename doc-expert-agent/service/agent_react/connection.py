@@ -4,9 +4,9 @@ from langchain.callbacks.base import BaseCallbackHandler
 from tools.celulares_atualizados import get_simple_tools
 from service.agent_react.prompt import Prompt
 
-import logging
+from infra import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class ConnectionWithReactToOpenAI:
 
