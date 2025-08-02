@@ -100,7 +100,7 @@ class MainView:
                 "STYLE_SPECIFIC_PROMPTING": "Estilo Específico",
                 "LENGHT_LIMITATION_PROMPTING": "Limitação de Tamanho",
                 "STEP_BY_STEP_INSTRUCTION_PROMPTING": "Passo a Passo"
-            }.get(x, x),
+            }.get(x, x)
         )
 
         st.info("**Observação:**\n- **Documento anexado:** TCC")
