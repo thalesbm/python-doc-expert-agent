@@ -1,91 +1,85 @@
+"""
+Versão completa do embedding com cache real implementado.
+"""
+
 from langchain_core.documents import Document
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores.chroma import Chroma
 from typing import List, Dict, Any
-from typing import List
-
 from logger import get_logger
 from pathlib import Path
-import numpy as np
 from .embedding_cache import EmbeddingCache
+import numpy as np
 
 logger = get_logger(__name__)
 
-class Embedding:
 
-    def __init__(self):
-        pass
+class EmbeddingWithCache:
+    """Classe de embedding com cache completo implementado."""
+
+    def __init__(self, cache_dir: str = "files/cache/embeddings"):
+        self.cache = EmbeddingCache(cache_dir, max_size_mb=1000)
+        self.model = "text-embedding-ada-002"
+        self.logger = get_logger(__name__)
 
     def embedding_document(self, chunks: List[Document], api_key: str, path: str) -> Chroma:
-        logger.info("Inicializando embedding do documento...")
+        """
+        Processa documentos com cache de embeddings.
+        
+        Args:
+            chunks: Lista de chunks para processar
+            api_key: Chave da API OpenAI
+            path: Caminho para salvar o vector store
+            
+        Returns:
+            Vector store com embeddings
+        """
+        self.logger.info("Inicializando embedding do documento com cache...")
 
         if not chunks:
-            logger.warning("Lista de chunks vazia para embedding.")
+            self.logger.warning("Lista de chunks vazia para embedding.")
             return None
 
-        cache = EmbeddingCache(Path("files/cache/embeddings"), max_size_mb=1000)
-        model = "text-embedding-ada-002"
-        
-        # Processa cada chunk individualmente com cache
-        cached_chunks = []
+        # Separa chunks cacheados e não cacheados
+        cached_embeddings = {}
         uncached_chunks = []
         
         for chunk in chunks:
             chunk_text = chunk.page_content
             
-            if cache.is_cached(chunk_text, model):
-                logger.info(f"Chunk encontrado no cache: {chunk_text[:50]}...")
-
-                chunk_from_cache = cache.get_from_cache(chunk_text, model)
-
-                cached_chunks.append(chunk_from_cache)
+            if self.cache.is_cached(chunk_text, self.model):
+                self.logger.info(f"Chunk encontrado no cache: {chunk_text[:50]}...")
+                embedding = self.cache.get_from_cache(chunk_text, self.model)
+                cached_embeddings[chunk_text] = embedding
             else:
-                logger.info(f"Chunk não encontrado no cache: {chunk_text[:50]}...")
+                self.logger.info(f"Chunk não encontrado no cache: {chunk_text[:50]}...")
                 uncached_chunks.append(chunk)
-        
-        logger.info(f"Chunks em cache: {len(cached_chunks)}, Chunks para processar: {len(uncached_chunks)}")
-        
-        # Gera embeddings apenas para chunks não cacheados
+
+        self.logger.info(f"Chunks em cache: {len(cached_embeddings)}, Chunks para processar: {len(uncached_chunks)}")
+
+        # Gera embeddings para chunks não cacheados
         new_embeddings = {}
         if uncached_chunks:
             new_embeddings = self._generate_embeddings_for_chunks(uncached_chunks, api_key)
             
+            # Salva novos embeddings no cache
             for chunk in uncached_chunks:
                 chunk_text = chunk.page_content
                 if chunk_text in new_embeddings:
-                    cache.save_to_cache(chunk_text, model, new_embeddings[chunk_text])
-                    logger.info(f"Embedding salvo no cache: {chunk_text[:50]}...")
-        
-        
-        all_embeddings = {**cached_chunks, **new_embeddings}
+                    self.cache.save_to_cache(chunk_text, self.model, new_embeddings[chunk_text])
+                    self.logger.info(f"Embedding salvo no cache: {chunk_text[:50]}...")
 
+        # Combina todos os embeddings
+        all_embeddings = {**cached_embeddings, **new_embeddings}
+        
+        # Cria vector store
         vector_store = self._create_vector_store(chunks, all_embeddings, path)
-
+        
         # Obtém estatísticas do cache
-        stats = cache.get_cache_stats()
-        logger.info(f"Estatísticas do cache: {stats}")
+        stats = self.cache.get_cache_stats()
+        self.logger.info(f"Estatísticas do cache: {stats}")
         
         return vector_store
-    
-    def generate_embedding(self, chunks: List[Document], api_key: str, path: str) -> Chroma:
-        embeddings = OpenAIEmbeddings(openai_api_key=api_key)
-        
-        logger.info("Iniciando analise")
-
-        vector_store = Chroma.from_documents(
-            documents=chunks,
-            embedding=embeddings,
-            persist_directory=path
-        )
-
-        logger.info("Persistindo no db")
-
-        vector_store.persist()
-
-        logger.info("Finalizando embedding do documento")
-
-        return vector_store
-
 
     def _generate_embeddings_for_chunks(self, chunks: List[Document], api_key: str) -> Dict[str, List[float]]:
         """
@@ -101,16 +95,16 @@ class Embedding:
         embeddings_model = OpenAIEmbeddings(openai_api_key=api_key)
         embeddings_dict = {}
         
-        logger.info(f"Gerando embeddings para {len(chunks)} chunks...")
+        self.logger.info(f"Gerando embeddings para {len(chunks)} chunks...")
         
         for chunk in chunks:
             try:
                 chunk_text = chunk.page_content
                 embedding = embeddings_model.embed_query(chunk_text)
                 embeddings_dict[chunk_text] = embedding
-                logger.info(f"Embedding gerado para: {chunk_text[:50]}...")
+                self.logger.info(f"Embedding gerado para: {chunk_text[:50]}...")
             except Exception as e:
-                logger.error(f"Erro ao gerar embedding para chunk: {e}")
+                self.logger.error(f"Erro ao gerar embedding para chunk: {e}")
         
         return embeddings_dict
 
@@ -126,7 +120,7 @@ class Embedding:
         Returns:
             Vector store
         """
-        logger.info("Criando vector store...")
+        self.logger.info("Criando vector store...")
         
         # Cria embeddings model customizado que usa cache
         class CachedEmbeddings:
@@ -148,10 +142,10 @@ class Embedding:
             persist_directory=path
         )
         
-        logger.info("Persistindo vector store...")
+        self.logger.info("Persistindo vector store...")
         vector_store.persist()
         
-        logger.info("Vector store criado com sucesso!")
+        self.logger.info("Vector store criado com sucesso!")
         return vector_store
 
     def get_cache_stats(self) -> Dict[str, Any]:
@@ -161,4 +155,4 @@ class Embedding:
     def clear_cache(self):
         """Limpa o cache."""
         self.cache.clear_cache()
-        logger.info("Cache limpo!") 
+        self.logger.info("Cache limpo!") 
