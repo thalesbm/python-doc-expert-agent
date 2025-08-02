@@ -3,7 +3,7 @@ Infrastructure module - Responsável por configurações de infraestrutura e cli
 """
 
 from .openai_client import OpenAIClientFactory
-from .logger import setup_logging, get_logger, set_log_level, add_file_handler, auto_setup
+from .logger import setup_logging, get_logger, set_log_level, add_file_handler
 
 __all__ = [
     "OpenAIClientFactory",
@@ -11,5 +11,4 @@ __all__ = [
     "get_logger", 
     "set_log_level",
     "add_file_handler",
-    "auto_setup"
 ] 

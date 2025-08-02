@@ -7,24 +7,25 @@ from pipeline.evaluate import Evaluate
 
 from service.select_service import SelectServices
 from model.input import Input
-from model.enum.database_path import DatabasePath
+from config import get_config
 from infra import get_logger
 
 logger = get_logger(__name__)
 
 class MainController:
 
-    def __init__(self, connection_type: str, database_path: DatabasePath):
+    def __init__(self, connection_type: str, database_path: str):
         logger.info("Iniciando setup do RAG...")
 
         self.database_path = database_path
+        self.config = get_config()
 
         self.api_key = Key.get_openai_key()
 
         document = Loader.load_document(connection_type=connection_type)
         chunks = Splitter.split_document(document)
         
-        Embedding.embedding_document(chunks, self.api_key, database_path.value)
+        Embedding.embedding_document(chunks, self.api_key, database_path)
 
         logger.info("Setup do RAG finalizado!")
 
@@ -54,10 +55,12 @@ class MainController:
         result_callback(result)
 
         # evaluate
-        evaluate = Evaluate(
-            answer=result,
-            chunks=chunks, 
-            question=input.question
-        ).evaluate_answer()
+        evaluate = None
+        if self.config.rag.enable_evaluation:
+            evaluate = Evaluate(
+                answer=result,
+                chunks=chunks, 
+                question=input.question
+            ).evaluate_answer()
 
         return evaluate

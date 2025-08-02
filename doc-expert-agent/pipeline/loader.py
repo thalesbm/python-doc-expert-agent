@@ -13,18 +13,17 @@ class Loader:
     def load_document(connection_type: str) -> List[Document]:
         logger.info("Iniciando carregando do documento...")
 
+        config = get_config()
         documents = []
 
-        file_path = "files/tcc.pdf"
-        if (ConnectionType(connection_type) in [ConnectionType.CONNECTION_WITH_COMPLETE_MEMORY, ConnectionType.CONNECTION_WITH_SUMARY_MEMORY]):
-            file_path = "files/harry-potter-1-cap-1.pdf"
-            logger.info("Selecionado livro do HP")
+        file_path = config.get_file_path(connection_type)
+        logger.info(f"Carregando arquivo: {file_path}")
         
         try:
             loader = PyPDFLoader(file_path)
             documents = loader.load()
         except Exception as e:
-            print(f"Erro ao carregar PDF: {e}")
+            logger.error(f"Erro ao carregar PDF: {e}")
             raise
             
         logger.info("Finalizando carregando do documento")
