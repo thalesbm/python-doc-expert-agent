@@ -33,12 +33,6 @@ Específico para RAG
 🔧 RAG com sumarizacao ou compressao dos chunks
 🔧 Query transformation (reformular queries para melhorar o recall)
 
-Interface do Usuário
-🔧 Adicionar feedback visual durante processamento
-🔧 Implementar histórico de conversas
-🔧 Adicionar exportação de resultados
-🔧 Melhorar responsividade
-
 Outras features
 🔧 Chain of Responsibility (cada etapa valida ou transforma a resposta)
 🔧 Fine-tuning e Adapters

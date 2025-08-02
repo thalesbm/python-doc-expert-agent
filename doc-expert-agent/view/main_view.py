@@ -15,57 +15,72 @@ class MainView:
     def set_view(callback):
         logger.info("Configurando View")
         
-        st.subheader("Escolha as configurações abaixo e faça a sua pergunta")
-        
-        prompt_type_option = None
-        question = None
-
-        connection_type_option = MainView.get_connection_typpe()
-
-        if connection_type_option == "conexao-simples-llm":
-            prompt_type_option, question = MainView.render_conexao_simples_llm()
-        
-        elif connection_type_option in ["conexao-llm-complete-memory", "conexao-llm-summary-memory"]:
-            question = MainView.render_conexao_memory_llm()
+        with st.container():
             
-        elif connection_type_option in ["conexao-com-tool", "conexao-com-tool-react"]:
-            question = MainView.render_conexao_tools_llm()
+            prompt_type_option = None
 
-        with st.form(key="meu_formulario"):
-            submit = st.form_submit_button(label="Enviar")
+            connection_type_option = MainView.get_connection_type()
 
-        if submit:
-            input = Input(
-                question=question,
-                connection_type=connection_type_option,
-                prompt_type=prompt_type_option
-            )
-            callback(input)
+            if connection_type_option == "conexao-simples-llm":
+                prompt_type_option, pergunta = MainView.render_conexao_simples_llm()
+            
+            elif connection_type_option in ["conexao-llm-complete-memory", "conexao-llm-summary-memory"]:
+                pergunta = MainView.render_conexao_memory_llm()
+                
+            elif connection_type_option in ["conexao-com-tool", "conexao-com-tool-react"]:
+                pergunta = MainView.render_conexao_tools_llm()
+            
+            with st.form(key="meu_formulario"):
+                # Campo de pergunta
+                question_input = st.text_area(
+                    "Digite sua pergunta:",
+                    value=pergunta,
+                    height=60,
+                )
+                
+                # Botão de envio
+                col1, col2, col3 = st.columns([1, 2, 1])
+                with col1:
+                    submit = st.form_submit_button(
+                        "Enviar Pergunta",
+                        use_container_width=True
+                    )
 
-    def get_connection_typpe():
-        connetion_type_option = st.selectbox("Tipo de Conexão",
+            if submit:
+                if question_input and question_input.strip():
+                    input = Input(
+                        question=question_input,
+                        connection_type=connection_type_option,
+                        prompt_type=prompt_type_option
+                    )
+                    callback(input)
+                else:
+                    st.error("❌ Por favor, insira uma pergunta antes de enviar.")
+
+    def get_connection_type():
+        """Seletor de tipo de conexão."""
+        return st.selectbox(
+            "Escolha o tipo de conexão:",
             [
                 "conexao-simples-llm", 
                 "conexao-llm-complete-memory",
                 "conexao-llm-summary-memory",
                 "conexao-com-tool", 
                 "conexao-com-tool-react", 
-                
             ],
             format_func=lambda x: {
-                "conexao-simples-llm": "Simples",
+                "conexao-simples-llm": "Conexão Simples",
                 "conexao-llm-complete-memory": "Memória Completa",
-                "conexao-llm-summary-memory": "Memória com Resumo Automático",
-                "conexao-com-tool": "Com Tool",
-                "conexao-com-tool-react": "Com Tool e ReAct",
+                "conexao-llm-summary-memory": "Memória Resumida",
+                "conexao-com-tool": "Com Tools",
+                "conexao-com-tool-react": "ReAct"
             }.get(x, x)
         )
 
-        return connetion_type_option
-        
-
     @staticmethod
     def render_conexao_simples_llm():
+        """Renderiza interface para conexão simples."""
+
         prompt_type_option = st.selectbox(
             "Tipo de Prompt:",
             [   
@@ -85,59 +100,54 @@ class MainView:
                 "STYLE_SPECIFIC_PROMPTING": "Estilo Específico",
                 "LENGHT_LIMITATION_PROMPTING": "Limitação de Tamanho",
                 "STEP_BY_STEP_INSTRUCTION_PROMPTING": "Passo a Passo"
-            }.get(x, x)
-        )
-        question = st.text_input(
-            "Faça sua pergunta sobre o TCC da minha faculdade", 
-            value = "quem escreveu o trabalho?"
+            }.get(x, x),
         )
 
-        with st.sidebar:
-            st.title("Observações")
-            st.write("Escolha o tipo de prompt que deseja usar")
-
-        return prompt_type_option, question
+        st.info("**Observação:**\n- **Documento anexado:** TCC")
+        pergunta = "quem escreveu o trabalho?"
+        return prompt_type_option, pergunta
 
     @staticmethod
     def render_conexao_memory_llm():
-        question = st.text_input(
-            "Faça sua pergunta sobre o primeiro capitulo do livro Harry Potter e a Pedra Filosofal", 
-            value = "Sempre que eu perguntar qual o meu nome, voce responde: Thales. Resume o livro em 15 palavras."
-        )
-
-        with st.sidebar:
-            st.title("Observações")
-            st.write("Utilizando memória de histórico completa: (ConversationBufferMemory)")
-            st.write("Utilizando memória com resumo automático: (ConversationSummaryMemory)")
-
-        return question
+        """Renderiza interface para conexão com memória."""
+        st.info("**Observação:**\n- **Memória Completa:** Mantém todo o histórico da conversa\n- **Memória Resumida:** Cria resumos automáticos da conversa \n- **Documento anexado:** Livro do Harry Potter e a Pedra Filosofal, capítulo 1")
+        pergunta = "Sempre que eu perguntar qual o meu nome, voce responde: Thales. Resume o livro em 15 palavras."
+        return pergunta
 
     @staticmethod
     def render_conexao_tools_llm():
-        question = st.text_input(
-            "Faça sua pergunta sobre o TCC da minha faculdade", 
-            value = "Quantos celulares o app pode rodar em 2025?"
-        )
+        """Renderiza interface para conexão com tools."""        
+        st.info("**Observação:**\n- **celulares_atualizados():** Retorna quantidade de celulares no Brasil\n- O sistema detecta automaticamente quando usar ferramentas \n- **Documento anexado:** TCC")
+        pergunta = "Quantos celulares o app pode rodar em 2025?"
+        return pergunta
 
-        with st.sidebar:
-            st.title("Observações")
-            st.write("Esse tipo de conexão chama uma tool caso o LLM identifique que o usuário fez alguma perguntou relacionada a quantidade de celulares disponivel no Brasil")
-           
-        return question
 
     @staticmethod
     def update_view_with_chunks(answers: List[Answer]):
-        st.subheader("🧩 Chunks recuperados:")
+        """Atualiza a view com os chunks recuperados."""
+        st.subheader("🧩 Chunks Recuperados")
         
-        for answer in answers:
-            st.write(answer.content)
+        if not answers:
+            st.warning("⚠️ Nenhum chunk foi encontrado para a pergunta.")
+            return
+        
+        for i, answer in enumerate(answers, 1):
+            with st.expander(f"📄 Chunk {i}", expanded=False):
+                st.write("**Conteúdo:**")
+                st.write(answer.content)
+                
+                if answer.metadata:
+                    st.write("**Metadados:**")
+                    st.write(answer.metadata)
 
     @staticmethod
     def update_view_with_result(result: str):
-        st.subheader("✅ Resposta final OpenAI:")
+        """Atualiza a view com o resultado final."""
+        st.subheader("✅ Resposta Final")
         st.write(result)
 
     @staticmethod
     def update_view_with_evaluate(evaluate: str):
-        st.subheader("🔍 Avaliação:")
+        """Atualiza a view com a avaliação."""
+        st.subheader("🔍 Avaliação de Qualidade")
         st.write(evaluate)
