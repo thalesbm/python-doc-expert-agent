@@ -4,7 +4,8 @@ Um agente inteligente construído em Python que utiliza **RAG (Retrieval-Augment
 
 ## Funcionalidades
 
-- **RAG (Retrieval-Augmented Generation)**: Responde perguntas baseadas em documentos PDF
+- **RAG (Retrieval-Augmented Generation)**: Sistema completo de busca e geração baseada em documentos
+- **Chunking Adaptativo**: Divisão inteligente de documentos baseada no conteúdo
 - **Tools**: Integração com ferramentas externas via function calling
 - **Interface**: Interface web com Streamlit
 - **Avaliação**: Métricas de qualidade com Ragas
@@ -47,16 +48,8 @@ python3 ./doc-expert-agent/validation/validation_tcc.py
 - **Score threshold**: `0.85`
 - **Avaliação**: Habilitada
 
-## Tipos de Conexão
-
-1. **Conexão Simples**: RAG básico
-2. **Memória Completa**: Histórico completo de conversa
-3. **Memória Resumida**: Resumo automático de conversa
-4. **Com Tools**: Integração com ferramentas externas
-5. **ReAct**: Raciocínio e ação
-
 ## Métricas de Avaliação
 
-- **Context Recall**: Relevância do contexto
-- **Faithfulness**: Fidelidade da resposta
-- **Answer Relevance**: Relevância da resposta
+- **Context Recall**: Relevância do contexto encontrado
+- **Faithfulness**: Fidelidade da resposta ao contexto
+- **Answer Relevance**: Relevância da resposta para a pergunta
