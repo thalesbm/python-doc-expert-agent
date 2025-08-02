@@ -19,22 +19,22 @@ class Splitter:
         
         logger.info("Iniciando split do documento...")
 
-        chunks = fixed_chunks(documents)
-        # adaptive_chunks = self.adaptive_chunks(documents)
+        fixed_chunks = generate_fixed_chunks(documents)
+        adaptive_chunks = generate_adaptive_chunks(documents)
 
-        # logger.info(f"Chunking fixo: {len(fixed_chunks)} chunks")
-        # logger.info(f"Chunking adaptativo: {len(adaptive_chunks)} chunks")
+        logger.info(f"Chunking fixo: {len(fixed_chunks)} chunks")
+        logger.info(f"Chunking adaptativo: {len(adaptive_chunks)} chunks")
         
-        # # Compara tamanhos
-        # fixed_lengths = [len(chunk.page_content) for chunk in fixed_chunks]
-        # adaptive_lengths = [len(chunk.page_content) for chunk in adaptive_chunks]
+        # Compara tamanhos
+        fixed_lengths = [len(chunk.page_content) for chunk in fixed_chunks]
+        adaptive_lengths = [len(chunk.page_content) for chunk in adaptive_chunks]
         
-        # logger.info(f"Tamanhos fixos: {fixed_lengths}")
-        # logger.info(f"Tamanhos adaptativos: {adaptive_lengths}")
+        logger.info(f"Tamanhos fixos: {fixed_lengths}")
+        logger.info(f"Tamanhos adaptativos: {adaptive_lengths}")
 
-        return chunks
+        return adaptive_chunks
 
-def fixed_chunks(documents: List[Document]) -> List[Document]:
+def generate_fixed_chunks(documents: List[Document]) -> List[Document]:
     logger.info("Iniciando split do documento (fixed_chunks)...")
 
     config = get_config()
@@ -49,7 +49,7 @@ def fixed_chunks(documents: List[Document]) -> List[Document]:
 
     return unique_chunks
 
-def adaptive_chunks(documents: List[Document]) -> List[Document]:
+def generate_adaptive_chunks(documents: List[Document]) -> List[Document]:
     logger.info("Iniciando split do documento (adaptive_chunks)...")
     
     adaptive_chunker = AdaptiveChunker()

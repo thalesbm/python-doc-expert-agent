@@ -22,6 +22,65 @@ class AdaptiveChunker:
         self.base_overlap = base_overlap or config.rag.chunk_overlap
         self.logger = get_logger(__name__)
     
+    def chunk_documents(self, documents: List[Document]) -> List[Document]:
+        """
+        Chunk múltiplos documentos usando estratégia adaptativa.
+        
+        Args:
+            documents: Lista de documentos
+            
+        Returns:
+            Lista de chunks
+        """
+        all_chunks = []
+        
+        for doc in documents:
+            chunks = self.chunk_document(doc)
+            all_chunks.extend(chunks)
+        
+        # Remove duplicados globais
+        final_chunks = self.remove_duplicates(all_chunks)
+        
+        self.logger.info(f"Total de chunks únicos: {len(final_chunks)}")
+        
+        return final_chunks
+
+    def chunk_document(self, document: Document) -> List[Document]:
+        """
+        Chunk um documento usando estratégia adaptativa.
+        
+        Args:
+            document: Documento para chunking
+            
+        Returns:
+            Lista de chunks
+        """
+        self.logger.info(f"Iniciando chunking adaptativo para documento: {document.metadata}")
+        
+        # Analisa o conteúdo
+        metrics = self.analyze_content(document.page_content)
+        strategy = self.determine_chunk_strategy(metrics)
+        
+        self.logger.info(f"Métricas: {metrics}")
+        self.logger.info(f"Estratégia: {strategy}")
+        
+        # Cria o splitter com a estratégia determinada
+        splitter = RecursiveCharacterTextSplitter(
+            chunk_size=strategy['chunk_size'],
+            chunk_overlap=strategy['overlap'],
+            separators=["\n\n", "\n", ". ", "? ", "! ", "; ", ": ", " "]
+        )
+        
+        # Faz o chunking
+        chunks = splitter.split_documents([document])
+        
+        # Remove chunks duplicados
+        unique_chunks = self.remove_duplicates(chunks)
+        
+        self.logger.info(f"Chunks gerados: {len(chunks)}, Únicos: {len(unique_chunks)}")
+        
+        return unique_chunks
+
     def analyze_content(self, text: str) -> Dict[str, Any]:
         """
         Analisa o conteúdo para determinar a estratégia de chunking.
@@ -97,65 +156,6 @@ class AdaptiveChunker:
             'chunk_size': max(200, chunk_size),  # Mínimo de 200 caracteres
             'overlap': max(50, overlap)          # Mínimo de 50 caracteres
         }
-    
-    def chunk_document(self, document: Document) -> List[Document]:
-        """
-        Chunk um documento usando estratégia adaptativa.
-        
-        Args:
-            document: Documento para chunking
-            
-        Returns:
-            Lista de chunks
-        """
-        self.logger.info(f"Iniciando chunking adaptativo para documento: {document.metadata}")
-        
-        # Analisa o conteúdo
-        metrics = self.analyze_content(document.page_content)
-        strategy = self.determine_chunk_strategy(metrics)
-        
-        self.logger.info(f"Métricas: {metrics}")
-        self.logger.info(f"Estratégia: {strategy}")
-        
-        # Cria o splitter com a estratégia determinada
-        splitter = RecursiveCharacterTextSplitter(
-            chunk_size=strategy['chunk_size'],
-            chunk_overlap=strategy['overlap'],
-            separators=["\n\n", "\n", ". ", "? ", "! ", "; ", ": ", " "]
-        )
-        
-        # Faz o chunking
-        chunks = splitter.split_documents([document])
-        
-        # Remove chunks duplicados
-        unique_chunks = self.remove_duplicates(chunks)
-        
-        self.logger.info(f"Chunks gerados: {len(chunks)}, Únicos: {len(unique_chunks)}")
-        
-        return unique_chunks
-    
-    def chunk_documents(self, documents: List[Document]) -> List[Document]:
-        """
-        Chunk múltiplos documentos usando estratégia adaptativa.
-        
-        Args:
-            documents: Lista de documentos
-            
-        Returns:
-            Lista de chunks
-        """
-        all_chunks = []
-        
-        for doc in documents:
-            chunks = self.chunk_document(doc)
-            all_chunks.extend(chunks)
-        
-        # Remove duplicados globais
-        final_chunks = self.remove_duplicates(all_chunks)
-        
-        self.logger.info(f"Total de chunks únicos: {len(final_chunks)}")
-        
-        return final_chunks
     
     def remove_duplicates(self, chunks: List[Document]) -> List[Document]:
         """
